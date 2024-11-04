@@ -1,0 +1,19 @@
+@use '../../../Shared/GlobalStyle/style.scss' as color;
+
+.searchSection{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 31px;
+    margin: 50px 0px;
+    .searchInput{
+        width: 750px;
+        height: 40px;
+        border-radius: 10px;
+        border: 1px solid black;
+        padding-left: 25px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+    
+}

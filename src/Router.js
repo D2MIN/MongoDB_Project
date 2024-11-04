@@ -1,5 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
-import Home from "./App/Home/UI/Home";
+import Home from "./App/Home/UI/Home.tsx";
+import CreateStore from "./App/CreateStorage/UI/CreateStorage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -7,7 +8,8 @@ export const router = createBrowserRouter([
     element: <Home/>,
   },
   {
-
+    path: '/createStorage',
+    element : <CreateStore/>,
   }
 ]);
   

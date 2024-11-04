@@ -1,0 +1,91 @@
+.createStorageForm{
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.createStorageFormSection{
+    width: 900px;
+    height: 410px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+
+    .uploadImg{
+        height: 400px;
+        width: 400px;
+        border-radius: 10px;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &::after {
+            content: "Выбрать фото";
+            position: absolute;
+            font-size: 4ex;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+
+        }
+        &:hover{
+            &::after{
+                content: "Выбрать фото";
+                background-color: #4f4e4e;
+            }
+        }
+        input{
+            width: 400px;
+            height: 400px;
+            cursor: pointer;
+            opacity: 0%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .selectedImgSection{
+            width: 400px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            border-radius: 10px;
+            overflow: hidden;
+    
+            .selectedImg{
+                position: relative;
+                border-radius: 10px;
+                height: 400px;
+            }
+        }
+
+    }
+
+    .StorageInfo{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+
+        .input, .textarea{
+            width: 400px;
+            height: 50px;
+            border-radius: 10px;
+            border: 1px solid black;
+            padding-left: 25px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .textarea{
+            height: 160px;
+            resize: none;
+        }
+    }
+}

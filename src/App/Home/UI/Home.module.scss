@@ -1,0 +1,8 @@
+@use '../../../Shared/GlobalStyle/style.scss' as color;
+
+.homePage{
+    background-color: color.$blue1;
+    padding-top: 110px;
+    width: 100%;
+    min-height: calc(100vh - 110px);
+}

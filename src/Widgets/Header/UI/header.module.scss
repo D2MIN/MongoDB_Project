@@ -1,21 +1,22 @@
 @use '../../../Shared/GlobalStyle/style.scss' as color;
 
 .headerSection{
-    width: 100vw;
+    width: 100%;
     height: 110px;
     position:fixed;
+    top: 0;
     background-color: #333;
     color: white;
+    display: flex;
+    justify-content: center;
 }
 
 .header{
-    display: flex;
+    width: 80%;
     height: 100%;
-    
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 50px;
-    padding: 0px 131px;
 }
 
 .logo{
@@ -32,8 +33,13 @@
 
 .nuvLink{
     cursor: pointer;
-}
+    
+    .Link{
+        color: white;
+        text-decoration: none;
+    }
 
-.nuvLink:hover{
-    color: color.$blue3;
+    .Link:hover{
+        color: color.$blue3;
+    }
 }

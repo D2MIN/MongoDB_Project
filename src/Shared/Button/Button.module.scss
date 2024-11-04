@@ -1,0 +1,15 @@
+@use '../GlobalStyle/style.scss' as color;
+
+.button{
+    width: 200px;
+    min-height: 40px;
+    border-radius: 10px;
+    border: 1px solid black;
+    background-color: color.$blue2;
+    color: white;
+    font-size: 20px;
+}
+
+.button:hover{
+    background-color: color.$blue2-l;
+}
