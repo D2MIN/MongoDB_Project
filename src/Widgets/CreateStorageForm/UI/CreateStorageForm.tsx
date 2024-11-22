@@ -11,6 +11,8 @@ function CreateStorageForm(){
     const [storageDescript, setStorageDescript] = useState<string>('');
     const [storageAdress, setStorageAdress] = useState<string>('');
     const [switchByClearForm, setswitchByClearForm] = useState<boolean>(false);
+    const [erroePushFlag, setErrorPushFlag] = useState<boolean>(false);
+    const [doneePushFlag, setDonePushFlag] = useState<boolean>(false);
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
@@ -31,20 +33,32 @@ function CreateStorageForm(){
             },
             body: JSON.stringify({ name: name, about: about, adress: adress, img : img}), // Преобразуем данные в JSON-строку
           })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              return response.json(); // Парсим JSON-ответ от сервера
-            })
-            .then(data => {
-              console.log('Success:', data); // Обрабатываем полученные данные
-            })
-            .catch(error => {
-              console.error('Error:', error); // Обрабатываем ошибки
-            });
-          
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            setDonePushFlag(true);
+          })
+          .catch(error => {
+            setErrorPushFlag(true);
+          });
     };
+
+    useEffect(()=>{
+      if(erroePushFlag == true){
+        setTimeout(()=>{
+          setErrorPushFlag(false);
+        },3000);
+      }
+    },[erroePushFlag]);
+
+    useEffect(()=>{
+      if(doneePushFlag == true){
+        setTimeout(()=>{
+          setDonePushFlag(false);
+        },3000);
+      }
+    },[doneePushFlag])
 
     function ButtonClick(name, about, adress, img){
       if(name != '' && about != '' && adress != '' && img != ''){
@@ -59,7 +73,18 @@ function CreateStorageForm(){
     }
 
     return(
-        <div className={style.createStorageForm}>
+      <div className={style.createStorageForm}>
+            {erroePushFlag == false ? '' : 
+              <div className={style.errorPush}>
+                Произошла ошибка при загрузке данных. <br />
+                Попробуйте добавить склад позже
+              </div>
+            }
+            {doneePushFlag == false ? '' : 
+              <div className={style.donePush}>
+                Данные созданы успешно
+              </div>
+            }
             <div className={style.createStorageFormSection}>
                 <div className={style.uploadImg}>
                     <input type="file" accept="image/*" onChange={handleImageUpload}/>

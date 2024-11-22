@@ -23,19 +23,24 @@ mongoose.connect(url, {
 
 // Запрос на отпраку данных
 app.post('/api/post/newstorage',async (req,res)=>{
-  const {name, adress, about, img} = await req.body;
-  const newStorage = new storage({
-    name: name,
-    street : adress,
-    about : about,
-    img : img,
-    carNumber : 0,
-    product : {},
-    cars : {}
-  });
-  newStorage.save()
-    .then(() => console.log('Пользователь сохранен'))
-    .catch(err => console.error('Ошибка сохранения:', err));
+  try{
+    const {name, adress, about, img} = await req.body;
+    const newStorage = new storage({
+      name: name,
+      street : adress,
+      about : about,
+      img : img,
+      carNumber : 0,
+      product : {},
+      cars : {}
+    });
+    newStorage.save()
+      .then(() => console.log('Пользователь сохранен'))
+      .catch(err => console.error('Ошибка сохранения:', err));
+    res.status(200).json({ status: "Done" });
+  } catch (error){
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
 })
 
 // Запрос на получение всех данных
