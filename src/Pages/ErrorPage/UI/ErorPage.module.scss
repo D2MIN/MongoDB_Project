@@ -1,0 +1,40 @@
+
+.errorPage{
+    height: 80vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    i{
+        color: rgb(221, 2, 2);
+    }
+}
+
+.errorSection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.linkToSiteSection{
+    margin-top: 50px;
+    
+    .button{
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #333;
+        color: white;
+        font-weight: 900;
+        font-size: 18px;
+    }
+    .button:hover{
+        background-color: #000000;
+    }
+}
+
+a{
+    text-decoration: none;
+}
