@@ -1,0 +1,103 @@
+@use '../../../Shared/GlobalStyle/style.scss' as color;
+
+.infoSection{
+    margin-top: 110px;
+    padding: 50px 0px;
+    background-color: color.$blue1;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 50px;
+    font-size: 34px;
+    font-weight: 900;
+}
+.aboutContent{
+    display: flex;
+    justify-content: start;
+    gap: 50px;
+    width: 1000px;
+
+    font-size: 22px;
+
+    .leftAboutContent{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .storageImg{
+        width: 250px;
+        height: 250px;
+        border-radius: 20px;
+        border: 4px solid white;
+    }
+
+    .adress{
+    }
+
+    .descript{
+        max-width: 600px;
+        margin: 20px 0px 50px 0px;
+    }
+
+    .delete{
+        width: 320px;
+        height: 45px;
+        border: 2px solid #000;
+        border-radius: 15px;
+        color: white;
+        background-color: color.$delete;
+        font-size: 20px;
+        font-weight: 800;
+    }
+    .delete:hover{
+        background-color: color.$deleteHover;
+    }
+}
+
+.storageEntrails{
+    .categories{
+        height: 100px;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        border-bottom: 9px solid color.$blue1;
+        padding: 10px 200px;
+        font-size: 24px;
+
+        .viewItems{
+
+        }
+
+        .viewCars{
+
+        }
+
+        .addItems{
+
+        }
+
+        .addCars{
+
+        }
+        
+        .link{
+            text-decoration: none;
+            color: #000;
+        }
+        .activeLink{
+            padding-bottom: 13px;
+            border-bottom: 4px solid white;
+            color: color.$blue1;
+        }
+    }
+}

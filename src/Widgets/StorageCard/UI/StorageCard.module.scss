@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 50px 0px;
+    padding: 25px 0px;
 }
 
 .storageSection{
@@ -49,13 +49,13 @@
             font-size: 22px;
         }
         .anoserSection{
-            width: 80%;
+            width: 600px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             .carCount{
                 font-size: 15px;
-    
+                min-width: 200px;
             }
         }
     }

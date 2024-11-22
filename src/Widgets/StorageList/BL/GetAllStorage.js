@@ -1,17 +1,22 @@
 export async function GetAllStorage(){
-    const response  = await fetch('http://localhost:8080/api/get/storage');
-    const allStorage = await response.json(); // Преобразуем ответ в JSON
-    let storageInfo = [];
-    allStorage.forEach(el => {
-        storageInfo.push({
-            id : el._id,
-            name : el.name,
-            adress : el.street,
-            aboutInfo : el.about,
-            countCar : el.carNumber,
+    try {
+        const response  = await fetch('http://localhost:8080/api/get/storage');
+        const allStorage = await response.json(); // Преобразуем ответ в JSON
+        let storageInfo = [];
+        allStorage.forEach(el => {
+            storageInfo.push({
+                id : el._id,
+                img : el.img,
+                name : el.name,
+                adress : el.street,
+                aboutInfo : el.about,
+                countCar : el.carNumber,
+            });
         });
-    });
-    return storageInfo;
+        return storageInfo;
+    } catch (error) {
+        console.log('Ошибка загрузки данных : \n', error);
+    }
 }
 
 // http://localhost:8080/api/get/storage

@@ -4,16 +4,48 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 31px;
     margin: 50px 0px;
-    .searchInput{
+
+
+    .inputContener{
+        position: relative;
+        display: flex;
+        width: 810px;
+        justify-content: end;
+        align-items: center;
+    }
+
+    .searchInput{   
         width: 750px;
         height: 40px;
         border-radius: 10px;
         border: 1px solid black;
-        padding-left: 25px;
+        padding: 0px 30px;
         font-weight: 600;
         font-size: 15px;
     }
     
+    .clearSearchLable{
+        position: absolute;
+        top: 50%;
+        width: 30px;
+        transform: translate(-10px, -50%);
+        background: transparent;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        color: #333;
+        display: inline; /* Кнопка видима */
+    
+    }
+    
+    .clearSearchLable::after{
+        content: "X";
+        font-weight: 900;
+    }
+    .clearSearchLable:hover{
+        color: blue;
+    }
 }

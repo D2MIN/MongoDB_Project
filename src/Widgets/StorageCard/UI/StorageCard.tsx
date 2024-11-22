@@ -1,21 +1,29 @@
 import React from "react";
 import style from "./StorageCard.module.scss";
 import { Button } from "../../../Shared/Button/Button.tsx";
+import byttonStyle from '../../../Shared/GlobalStyle/ButtonStyle.module.scss';
+import { useNavigate } from "react-router";
+import StorageInfo from "../../../App/StorageInfo/UI/StorageInfo.tsx";
 
 interface StorageInfoI{
     id : number,
+    img : String
     name : string,
     adress : string,
     aboutInfo : string,
     countCar : number,
 }
 
-function StorageCard({id, name,adress,aboutInfo,countCar}:StorageInfoI){
+
+function StorageCard({id,img ,name,adress,aboutInfo,countCar}:StorageInfoI){
+    
+    const navigate = useNavigate();
+
     return(
         <div className={style.storage}>
             <div className={style.storageSection}>
                 <div className={style.storageImg}>
-                    <img src="https://avatars.mds.yandex.net/i?id=da0bae1c20201e937cadeb31b1e3066d_l-5579535-images-thumbs&n=13" alt="Фото склада" />
+                    <img src={img.toString()} alt="Фото склада" />
                 </div>
                 <div className={style.storageInfo}>
                     <div className={style.storageNameSection}>
@@ -35,7 +43,12 @@ function StorageCard({id, name,adress,aboutInfo,countCar}:StorageInfoI){
                         <div className={style.carCount}>
                             <p>Колличество машин: {countCar || 0}</p>
                         </div>
-                        <Button title="Просмотр"/>
+                        <button 
+                            className={byttonStyle.button}
+                            onClick={()=>navigate(`/storageInfo/${id}`)}
+                        >
+                            Просмотр
+                        </button>
                     </div>
                 </div>
             </div>

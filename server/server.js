@@ -5,11 +5,11 @@ import { storage } from './StorageScheme.js';
 
 const app = express();
 const port = 8080; // Сервер будет слушать этот порт
-const url = 'mongodb://localhost:27017/test';
+const url = 'mongodb://localhost:27017/storage';
 
 // Используем cors middleware для всех маршрутов
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Увеличивает лимит для JSON
 
 // Подключение к серверу БД
 mongoose.connect(url, {
@@ -20,12 +20,15 @@ mongoose.connect(url, {
 
 
 // Запросы на (локальный) сервер
-app.post('/api/post/newstorage',(req,res)=>{
-  const {name, adress, aboutInfo} = req.body;
+
+// Запрос на отпраку данных
+app.post('/api/post/newstorage',async (req,res)=>{
+  const {name, adress, about, img} = await req.body;
   const newStorage = new storage({
     name: name,
     street : adress,
-    about : aboutInfo,
+    about : about,
+    img : img,
     carNumber : 0,
     product : {},
     cars : {}
@@ -35,6 +38,7 @@ app.post('/api/post/newstorage',(req,res)=>{
     .catch(err => console.error('Ошибка сохранения:', err));
 })
 
+// Запрос на получение всех данных
 app.get('/api/get/storage', async (req, res) => {
   try {
     const allStorage = await storage.find();
@@ -44,6 +48,38 @@ app.get('/api/get/storage', async (req, res) => {
       res.status(500).json({ error: "Ошибка сервера" });
   }
 });
+
+// Запрос на получение информации по складу
+app.get('/api/get/storage/:id/info', async (req, res) => {
+  try {
+    const storageId = req.params.id;
+    const storageInfo = await storage.findById(storageId);
+    if (!storageInfo || storageInfo.length === 0) {
+      return res.status(404).json({ error: "Склад не найден" });
+    }
+    res.json(storageInfo);
+  } catch (error) {
+      console.error("Ошибка при получении данных:", error);
+      res.status(500).json({ error: "Ошибка сервера" });
+  }
+});
+
+// Запрос на удаление склада
+app.delete('/api/delete/storage/:id', async (req, res) => {
+  try {
+    const storageId = req.params.id;
+    const deletedStorage = await storage.findByIdAndDelete(storageId);
+    if (!deletedStorage) {
+      return res.status(404).json({ error: "Документ не найден" });
+    }
+    res.json({ message: "Документ успешно удален", data: deletedStorage });
+  } catch (error) {
+    console.error("Ошибка при удалении поля:", error);
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+});
+
+
 
 // Запуск сервера
 app.listen(port, () => {
