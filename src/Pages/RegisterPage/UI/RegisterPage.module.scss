@@ -1,0 +1,87 @@
+@use '../../../Shared/GlobalStyle/style.scss' as style;
+
+.RegisterPage {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(to right, style.$blue1, style.$blue2);
+    color: style.$blue3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    text-align: center;
+    font-size: 24px;
+    color: style.$blue1;
+}
+
+.registerSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    background: style.$blue2-l;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.registerForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login, .password, .checkPassword {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+.submitBtn {
+    background: green;
+    color: white;
+    margin-top: 20px;
+    padding: 10px;
+    width: 170px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.loginLink{
+    font-size: 14px;
+    margin: 10px;
+}
+.loginLink:active{
+    color: black;
+}
+
+.homeBtn{
+    margin: 10px;
+    background: rgb(0, 41, 128);
+    color: white;
+    padding: 10px;
+    width: 170px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.homeLink{
+    font-size: 14px;
+    margin: 10px;
+}
+.homeLink:active{
+    color: black;
+}
+
+
+@media (max-width: 600px) {
+    .registerSection {
+        width: 300px;
+    }
+}
