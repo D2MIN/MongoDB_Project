@@ -11,7 +11,7 @@ interface StorageListPropI{
 
 function StorageList({searchTitle} : StorageListPropI){
 
-    const [allStorage, setAllStorage] = useState<StorageInfoI[]>();
+    const [allStorage, setAllStorage] = useState<StorageInfoI[]>([]);
 
     useEffect(()=>{
         if(searchTitle == ""){
@@ -23,9 +23,12 @@ function StorageList({searchTitle} : StorageListPropI){
     
     return(
         <div className="storageListSection">
-            {allStorage?.map((el)=>{
-                return <StorageCard key={el.id} id={el.id} img={el.img} name={el.name} adress={el.adress} aboutInfo={el.aboutInfo} countCar={el.countCar}/>
-            })}
+            {
+                allStorage.length > 0 ? 
+                allStorage?.map((el)=>{
+                    return <StorageCard key={el.id} id={el.id} img={el.img} name={el.name} adress={el.adress} aboutInfo={el.aboutInfo} countCar={el.countCar}/>
+                }) : <h2 className={style.emptyStorage}>Складов не найдено</h2>
+            }
         </div>
     );
 }
