@@ -1,18 +1,25 @@
 import React, { useState } from "react";
 import style from "./RegisterPage.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { RegisterUser } from "../BL/Register.tsx";
 
 function RegisterPage(){
 
     const [login, setLogin] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [checkPassword, setCheckPassword] = useState<string>("");
+    const navigate = useNavigate();
 
-    function registerUser(){
+    function register(){
         if(password != checkPassword){
             alert('Пароли не совпадают');
         }else{
-            alert('Пароли совпадают');
+            const res = RegisterUser(login, password);
+            if(res == true){
+                navigate('/');
+                document.cookie = "userLoggedIn=true";
+                document.cookie = `userName=${login}`;
+            }
         }
     }
 
@@ -48,7 +55,10 @@ function RegisterPage(){
                     <button
                         type="submit"
                         className={style.submitBtn}
-                        onClick={()=>registerUser()}
+                        onClick={(e) => {
+                            e.preventDefault(); // Отключение стандартного поведения формы
+                            register();
+                        }}
                     >
                             Зарегистрироваться
                     </button>

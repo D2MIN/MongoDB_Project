@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
 import { storage } from './StorageScheme.js';
+import { users } from './UsersScheme.js';
 
 const app = express();
 const port = 8080; // Сервер будет слушать этот порт
@@ -35,13 +36,29 @@ app.post('/api/post/newstorage',async (req,res)=>{
       cars : {}
     });
     newStorage.save()
-      .then(() => console.log('Пользователь сохранен'))
-      .catch(err => console.error('Ошибка сохранения:', err));
+      .then(() => console.log('Склад добавлен'))
+      .catch(err => console.error('Ошибка создания склада:', err));
     res.status(200).json({ status: "Done" });
   } catch (error){
     res.status(500).json({ error: "Ошибка сервера" });
   }
-})
+});
+
+app.post('/api/post/createuser', async (req,res)=>{
+  try {
+    const {login, password} =  req.body;
+    const newUser = new users({
+      password: password,
+      login: login,
+    });
+    newUser.save()
+      .then(()=>{console.log("Пользователь зарегестрирован")})
+      .catch(()=>console.log('Ошибка создания пользователя'))
+    res.status(200).json({status: 'creted'});
+  } catch (error) {
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+});
 
 // Запрос на получение всех данных
 app.get('/api/get/storage', async (req, res) => {
