@@ -15,7 +15,6 @@ function Header(){
             const arrCookie = cookie.map((el)=>el.split('='))
             let login = '';
             arrCookie.forEach((el)=>{
-                console.log(el[1])
                 if(el[0] == 'userName'){
                     login = el[1]
                 }
@@ -32,9 +31,11 @@ function Header(){
                     <div className={style.nuvLink}><Link className={style.Link} to={'/'}>Просмотр складов</Link></div>
                     <div className={style.nuvLink}><Link className={style.Link} to={'/createStorage'}>Создать склад</Link></div>
                     <div className={style.nuvLink}>
-                        <Link className={style.Link} to={'/login'}>
-                            {userLoggedInStatus == true ? user : 'Войти'}
-                        </Link>
+                        {userLoggedInStatus == true ?
+                            <Link className={style.Link}  to='/userPage'>{user}</Link>
+                            :
+                            <Link className={style.Link}  to='/login'>Войти</Link>
+                        }
                     </div>
                 </div>
             </div>
