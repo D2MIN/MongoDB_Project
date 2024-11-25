@@ -44,22 +44,6 @@ app.post('/api/post/newstorage',async (req,res)=>{
   }
 });
 
-app.post('/api/post/createuser', async (req,res)=>{
-  try {
-    const {login, password} =  req.body;
-    const newUser = new users({
-      password: password,
-      login: login,
-    });
-    newUser.save()
-      .then(()=>{console.log("Пользователь зарегестрирован")})
-      .catch(()=>console.log('Ошибка создания пользователя'))
-    res.status(200).json({status: 'creted'});
-  } catch (error) {
-    res.status(500).json({ error: "Ошибка сервера" });
-  }
-});
-
 // Запрос на получение всех данных
 app.get('/api/get/storage', async (req, res) => {
   try {
@@ -101,7 +85,45 @@ app.delete('/api/delete/storage/:id', async (req, res) => {
   }
 });
 
+// Запрос на создания пользователя
+app.post('/api/post/createuser', async (req,res)=>{
+  try {
+    const {login, password} =  req.body;
+    const newUser = new users({
+      password: password,
+      login: login,
+    });
+    newUser.save()
+      .then(()=>{console.log("Пользователь зарегестрирован")})
+      .catch(()=>console.log('Ошибка создания пользователя'))
+    res.status(200).json({status: 'creted'});
+  } catch (error) {
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+});
 
+// Запрос на получение пользователя
+app.get('/api/get/user/:login/:password', async(req, res)=>{
+  try {
+    const referer = req.headers.referer;
+    if (referer !== 'http://localhost:3000/') {
+      return res.status(403).json({ error: "Недопустимый источник запроса" });
+    }
+    const login = req.params.login;
+    const password = req.params.password;
+    if (!login || !password) {
+      return res.status(400).json({ error: "Необходимо указать логин и пароль" });
+    }
+    const user = await users.findOne({ login, password });
+    if (!user) {
+      return res.status(404).json({ error: "Пользователь не найден" });
+    }
+    res.json(user);
+  }
+  catch(error){
+    console.log(error);
+  }
+})
 
 // Запуск сервера
 app.listen(port, () => {
