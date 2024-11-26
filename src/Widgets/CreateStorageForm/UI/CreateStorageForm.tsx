@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import style from './CreateStorageForm.module.scss';
 import {Button} from '../../../Shared/Button/Button.tsx'
-import { ButtonPostFuncI, StorageCreateInfo } from "../Interfaces/AllInterfaces";
+import { ButtonPostFuncI, StorageCreateInfo } from "../Interfaces/AllInterfaces.tsx";
 import byttonStyle from '../../../Shared/GlobalStyle/ButtonStyle.module.scss';
+import { Post } from "../BL/CreateStorage.tsx";
 
 function CreateStorageForm(){
 
@@ -25,23 +26,16 @@ function CreateStorageForm(){
       }
     };
 
-    function PostData(name, about, adress, img){
-        fetch('http://localhost:8080/api/post/newstorage', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json', // Задаем тип контента как JSON
-            },
-            body: JSON.stringify({ name: name, about: about, adress: adress, img : img}), // Преобразуем данные в JSON-строку
-          })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            setDonePushFlag(true);
-          })
-          .catch(error => {
-            setErrorPushFlag(true);
-          });
+    async function PostData(name, about, adress, img){
+      const user: string|undefined = document.cookie.split('; ').find(row => row.startsWith('userName='));
+      const userName = user ? user.split('=')[1] : undefined; // Проверка на undefined
+      if(userName != undefined){
+        const res = await Post(name, about, adress, img, userName);
+        setErrorPushFlag(res.setErrorPushFlag);
+        setDonePushFlag(res.setDonePushFlag);
+      }else{
+        console.log('user not find')
+      }
     };
 
     useEffect(()=>{

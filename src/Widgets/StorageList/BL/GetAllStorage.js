@@ -1,6 +1,6 @@
-export async function GetAllStorage(){
+export async function GetAllStorage(user){
     try {
-        const response  = await fetch('http://localhost:8080/api/get/storage');
+        const response  = await fetch(`http://localhost:8080/api/get/storage/${user}`);
         const allStorage = await response.json(); // Преобразуем ответ в JSON
         let storageInfo = [];
         allStorage.forEach(el => {
@@ -15,6 +15,7 @@ export async function GetAllStorage(){
         });
         return storageInfo;
     } catch (error) {
+        return [];
         console.log('Ошибка загрузки данных : \n', error);
     }
 }

@@ -15,7 +15,9 @@ function StorageList({searchTitle} : StorageListPropI){
 
     useEffect(()=>{
         if(searchTitle == ""){
-            GetAllStorage().then((allStorage) => setAllStorage(allStorage));
+            const user: string|undefined = document.cookie.split('; ').find(row => row.startsWith('userName='));
+            const userName = user ? user.split('=')[1] : undefined; // Проверка на undefined
+            GetAllStorage(userName).then((allStorage) => setAllStorage(allStorage));
         }else{
             GetData(searchTitle).then((allStorage) => setAllStorage(allStorage));
         }

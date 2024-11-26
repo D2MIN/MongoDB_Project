@@ -22,11 +22,12 @@ mongoose.connect(url, {
 
 // Запросы на (локальный) сервер
 
-// Запрос на отпраку данных
+// Запрос на создание склада
 app.post('/api/post/newstorage',async (req,res)=>{
   try{
-    const {name, adress, about, img} = await req.body;
+    const {name, adress, about, img, user} = await req.body;
     const newStorage = new storage({
+      userLogin : user,
       name: name,
       street : adress,
       about : about,
@@ -45,9 +46,10 @@ app.post('/api/post/newstorage',async (req,res)=>{
 });
 
 // Запрос на получение всех данных
-app.get('/api/get/storage', async (req, res) => {
+app.get('/api/get/storage/:user', async (req, res) => {
   try {
-    const allStorage = await storage.find();
+    const user = req.params.user;
+    const allStorage = await storage.find({ userLogin: user });
     res.json(allStorage);
   } catch (error) {
       console.error("Ошибка при получении данных:", error);

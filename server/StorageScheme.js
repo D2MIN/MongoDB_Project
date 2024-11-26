@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const StorageScheme = new mongoose.Schema({
+    userLogin : {type: String, require: true},
     img : {type : String, require : true},
     name: { type: String, required: true },
     street: { type: String, required: true },
