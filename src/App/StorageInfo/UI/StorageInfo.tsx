@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import style from "./StorageInfo.module.scss";
 import Header from '../../../Widgets/Header/UI/Header.tsx'
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { set } from "mongoose";
 import { getStorageInfo } from "../BL/GetStorageInfo.tsx";
+import StorageContext from '../BL/useStorageContext.tsx';
 
 function StorageInfo(){
+
+    const [data,setData] = useState<object>({})
 
     const [activeLinkList,setActiveLinkList] = useState<number[]>([1,0,0,0]);
     const [storageImg, setStorageImg] = useState<string>('');
@@ -24,6 +27,7 @@ function StorageInfo(){
                 return; // Добавлено для обработки случая, когда response неопределен
             }
             const data = await response.json();
+            setData(data);
             // console.log(data);
             setStorageImg(data.img);
             setStorageName(data.name);
@@ -73,7 +77,7 @@ function StorageInfo(){
                 <div className={style.categories}>
                     <div className={style.viewItems}>
                         <Link 
-                            to='#'
+                            to=''
                             className={`${style.link} ${activeLinkList[0] ? style.activeLink : ''}`}
                             onClick={()=>setActiveLinkList([1,0,0,0])}
                         >Просмотр товаров
@@ -81,28 +85,33 @@ function StorageInfo(){
                     </div>
                     <div className={style.viewCars}>
                         <Link 
-                            to='#'
+                            to='addItem'
                             className={`${style.link} ${activeLinkList[1] ? style.activeLink : ''}`}
                             onClick={()=>setActiveLinkList([0,1,0,0])}
-                        >Просмотр товаров
+                        >Добавить товар
                         </Link>
                     </div>
                     <div className={style.addItems}>
                         <Link 
-                            to='#'
+                            to='viewCars'
                             className={`${style.link} ${activeLinkList[2] ? style.activeLink : ''}`}
                             onClick={()=>setActiveLinkList([0,0,1,0])}
-                        >Просмотр товаров
+                        >Просмотр машин
                         </Link>
                     </div>
                     <div className={style.addCars}>
                         <Link 
-                            to='#'
+                            to='addCars'
                             className={`${style.link} ${activeLinkList[3] ? style.activeLink : ''}`}
                             onClick={()=>setActiveLinkList([0,0,0,1])}
-                        >Просмотр товаров
+                        >Добавить машину
                         </Link>
                     </div>
+                </div>
+                <div className={style.StorageOutlet}>
+                    <StorageContext.Provider value={{data,setData}}>
+                        <Outlet />
+                    </StorageContext.Provider>
                 </div>
             </div>
 

@@ -15,7 +15,7 @@ interface StorageInfoI{
 }
 
 
-function StorageCard({id,img ,name,adress,aboutInfo,countCar}:StorageInfoI){
+function StorageCard({id,img,name,adress,aboutInfo,countCar}:StorageInfoI){
     
     const navigate = useNavigate();
 

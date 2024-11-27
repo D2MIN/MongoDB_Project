@@ -6,6 +6,7 @@ import ErrorPage from "./Pages/ErrorPage/UI/ErrorPage.tsx";
 import LoginPage from "./Pages/LoginPage/UI/LoginPage.tsx";
 import RegisterPage from "./Pages/RegisterPage/UI/RegisterPage.tsx";
 import UserPage from "./Pages/UserPage/UI/UserPage.tsx";
+import { ViewItemStorage } from "./Widgets/ItemStorage/ViewItemStorage/UI/ViewItemStorage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +20,13 @@ export const router = createBrowserRouter([
   },
   {
     path: '/storageInfo/:id',
-    element: <StorageInfo/>
+    element: <StorageInfo/>,
+    children : [
+      {
+        path : '',
+        element : <ViewItemStorage/>
+      }
+    ]
   },
   {
     path : '/login',
