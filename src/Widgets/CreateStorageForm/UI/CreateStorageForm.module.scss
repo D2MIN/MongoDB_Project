@@ -22,7 +22,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        &::after {
+        &::before {
             content: "Выбрать фото";
             position: absolute;
             font-size: 4ex;
@@ -33,7 +33,7 @@
 
         }
         &:hover{
-            &::after{
+            &::before{
                 content: "Выбрать фото";
                 background-color: #4f4e4e;
             }
@@ -63,6 +63,7 @@
                 position: relative;
                 border-radius: 10px;
                 height: 400px;
+                width: 100%;
             }
         }
 

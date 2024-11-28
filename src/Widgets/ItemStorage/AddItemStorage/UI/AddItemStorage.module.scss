@@ -1,0 +1,144 @@
+@use '../../../../Shared/GlobalStyle/style.scss' as style;
+
+.AddItemStorage{
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addItemForm{
+    border: 2px solid style.$blue1;
+    border-radius: 10px;
+    padding: 50px;
+}
+
+.upForm{
+    height: 200px;
+    width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.imgItemSection{
+    border: 2px solid style.$blue1;
+    height: 150px;
+    width: 200px;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &::before {
+        content: "Выбрать фото";
+        position: absolute;
+        font-weight: 800;
+        font-size: 20px;
+        color: style.$blue1;
+        padding: 20px;
+    }
+    &:hover{
+        &::after{
+            color: black;
+        }
+    }
+    input{
+        width: 200px;
+        height: 150px;
+        cursor: pointer;
+        opacity: 0%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3;
+    }
+
+    .selectedImgSection{
+        width: 200px;
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        border-radius: 10px;
+        overflow: hidden;
+
+        .selectedImg{
+            position: relative;
+            border-radius: 10px;
+            width: 200px;
+            height: 150px;
+        }
+    }
+    
+}
+
+.infoItemSection{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+        "name name"
+        "number itemW";
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    
+    .nameItem{
+        grid-area: name;
+        padding-left: 10px;
+        font-size: 18px;
+        height: 40px;
+        width: 330px;
+        border: 2px solid style.$blue1;
+        border-radius: 5px;
+    }
+    .numberItem{
+        grid-area: number;
+    }
+    .itemW{
+        grid-area: itemW;
+    }
+    .numberItem , .itemW{
+        font-size: 18px;
+        padding-left: 10px;
+        width: 150px;
+        height: 20px;
+        border: 2px solid style.$blue1;
+        border-radius: 5px;
+    }
+}
+
+.descriptItem{
+    .area{
+        resize: none;
+        width: calc(100% - 10px);
+        height: 50px;
+        padding-left: 10px;
+        border: 2px solid style.$blue1;
+        border-radius: 5px;
+        font-size: 18px;
+    }
+}
+
+.buttonSection{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .addItemBtn{
+        margin-top:30px;
+        width: 200px;
+        height: 40px;
+        border-radius: 10px;
+        border: 0px;
+        color: white;
+        font-size: 18px;
+        background-color: rgb(0, 79, 0);
+    }
+    .addItemBtn:hover{
+        background-color: rgb(0, 121, 0);
+    }
+}

@@ -7,6 +7,7 @@ export function ViewItemStorage(){
 
     const {data,setData} = useContext(StorageContext);
 
+    const [dataLength, setDataLength] = useState<number>(data.length);
     const [items,setItems] = useState<React.JSX.Element[]>([])
 
     useEffect(()=>{
@@ -14,36 +15,38 @@ export function ViewItemStorage(){
             const itemArr : React.JSX.Element[] = [];
             const product = await data.product;
             console.log(product)
-            if(product != undefined && product[0].itemName != undefined){
+            if(product != undefined || product[1].name != undefined){
                 product.forEach((elem)=>{
-                    itemArr.push(
-                        <div key={data._id} className={style.item}>
-                                <div className={style.itemTitle}>
-                                    <div className={style.itemName}>
-                                        {elem.itemName}
+                    if(elem.name != undefined){
+                        itemArr.push(
+                            <div key={data._id} className={style.item}>
+                                    <div className={style.itemTitle}>
+                                        <div className={style.itemName}>
+                                            {elem.name}
+                                        </div>
+                                        <div className={style.itemDescript}>
+                                            {elem.about}               
+                                        </div>
+                                        <button className={style.deleteBtn}>Удалить</button>
                                     </div>
-                                    <div className={style.itemDescript}>
-                                        {elem.itemDescript}               
+                                    <div className={style.itemInfo}>
+                                        <div className={style.info}>
+                                            <p>Колличество: {elem.itemCount}</p>
+                                            <p>Вес в кг: {elem.itemW}</p>
+                                        </div>
+                                        <div className={style.itemImg}>
+                                            <img className={style.Img} src={elem.imgPath} alt="IMG" />
+                                        </div>
                                     </div>
-                                    <button className={style.deleteBtn}>Удалить</button>
                                 </div>
-                                <div className={style.itemInfo}>
-                                    <div className={style.info}>
-                                        <p>Колличество: {elem.itemCount}</p>
-                                        <p>Вес в кг: {elem.itemW}</p>
-                                    </div>
-                                    <div className={style.itemImg}>
-                                        <img className={style.Img} src={elem.image} alt="IMG" />
-                                    </div>
-                                </div>
-                            </div>
-                    )
+                        );
+                    }
                 });
             }
             setItems(itemArr);
         }
         fetchData();
-    },[data])
+    },[data,dataLength])
 
     return(
         <div className={style.ViewItemStorage}>

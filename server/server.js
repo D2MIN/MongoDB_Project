@@ -127,6 +127,28 @@ app.get('/api/get/user/:login/:password', async(req, res)=>{
   }
 })
 
+// Запрос на добавление нового объекта в массив product
+app.put('/api/put/storage/:id/addproduct', async (req, res) => {
+  try {
+    const storageId = req.params.id;
+    const newProduct = req.body;
+    
+    const updatedStorage = await storage.findByIdAndUpdate(
+      storageId,
+      { $push: { product: newProduct } },
+      { new: true } // Возвращает обновленный документ
+    );
+    if (!updatedStorage) {
+      return res.status(404).json({ error: "Склад не найден" });
+    }
+    res.json({ message: "Продукт успешно добавлен", data: updatedStorage });
+    console.log('Продукт успешно добавлен');
+  } catch (error) {
+    console.error("Ошибка при добавлении продукта:", error);
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+});
+
 // Запуск сервера
 app.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);

@@ -11,7 +11,9 @@ const StorageScheme = new mongoose.Schema({
         {
             name: { type: String, required: false },
             about: {type: String, required: false },
-            count: { type: Number, required: false }
+            imgPath: {type: String, required: false },
+            itemCount: { type: Number, required: false },
+            itemW: { type: Number, required: false }
         }
     ],
     cars: [
