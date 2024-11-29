@@ -77,7 +77,7 @@ function StorageInfo(){
                 <div className={style.categories}>
                     <div className={style.viewItems}>
                         <Link 
-                            to=''
+                            to='./'
                             className={`${style.link} ${activeLinkList[0] ? style.activeLink : ''}`}
                             onClick={()=>setActiveLinkList([1,0,0,0])}
                         >Просмотр товаров

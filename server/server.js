@@ -149,6 +149,32 @@ app.put('/api/put/storage/:id/addproduct', async (req, res) => {
   }
 });
 
+// Запрос на удаление объекта из массива product
+app.put('/api/put/storage/:id/removeproduct', async (req, res) => {
+  try {
+    const storageId = req.params.id;
+    const criteria = req.body; // Условие для удаления (например, { id: 2dsfhsf8sf })
+
+    console.log(storageId, criteria);
+    const updatedStorage = await storage.findByIdAndUpdate(
+      storageId,
+      { $pull: { product: criteria } }, // Удаляет элементы массива product, соответствующие criteria
+      { new: true } // Возвращает обновленный документ
+    );
+
+    if (!updatedStorage) {
+      return res.status(404).json({ error: "Склад не найден" });
+    }
+
+    console.log('Продукт успешно удален');
+    res.json({ message: "Продукт успешно удален", data: updatedStorage });
+  } catch (error) {
+    console.error("Ошибка при удалении продукта:", error);
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+});
+
+
 // Запуск сервера
 app.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);

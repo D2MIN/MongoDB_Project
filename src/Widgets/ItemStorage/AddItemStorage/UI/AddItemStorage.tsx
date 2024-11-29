@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import style from './AddItemStorage.module.scss';
 import StorageContext from '../../../../App/StorageInfo/BL/useStorageContext.tsx';
 import { FetchDataItem } from '../BL/FetchDataItem.tsx';
+import { useNavigate } from 'react-router';
 
 // IMG название количество вес описание
 
@@ -12,6 +13,7 @@ export function AddItemStorage(){
     const [itemCount, setItemCount] = useState<number>(0);
     const [itemW, setItemW] = useState<number>(0);
 
+    const navigate = useNavigate();
     const [storageId, setStorageId] = useState();
     const {data,setData} = useContext(StorageContext);
     const [imageSrc, setImageSrc] = useState<string>('');
@@ -31,8 +33,16 @@ export function AddItemStorage(){
         setStorageId(data._id);
     }, [data])
 
+    function clearState(){
+        setItemName('');
+        setItemDescript('');
+        setItemW(0);
+        setItemCount(0);
+        setImageSrc('');
+    }
+
     function addItem(event){
-        event.preventDefault()
+        event.preventDefault();
         if( isNaN(itemCount) || isNaN(itemW)){
             console.log('Может напишешь нормальные числа ? ');
             return(0);
@@ -41,6 +51,8 @@ export function AddItemStorage(){
             return(0)
         }
         const res = FetchDataItem(itemName,itemDescript,imageSrc,itemW, itemCount, storageId);
+        clearState();   
+        
     }
 
     return(
@@ -60,18 +72,21 @@ export function AddItemStorage(){
                             className={style.nameItem} 
                             type="text" 
                             placeholder='Название'
+                            value={itemName}
                             onChange={(e)=>setItemName(e.target.value)}
                          />
                         <input
                             className={style.numberItem} 
                             type="text" 
                             placeholder='Число'
+                            value={itemCount}
                             onChange={(e)=>setItemCount(Number(e.target.value))}
                          />
                         <input
                             className={style.itemW} 
                             type="text"
                             placeholder='Вес'
+                            value={itemW}
                             onChange={(e)=>setItemW(Number(e.target.value))}
                          />
                     </div>
@@ -80,6 +95,7 @@ export function AddItemStorage(){
                     <textarea 
                         className={style.area} 
                         placeholder='Описание товара'
+                        value={itemDescript}
                         onChange={(e)=>setItemDescript(e.target.value)}
                         ></textarea>
                 </div>

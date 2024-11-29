@@ -1,0 +1,58 @@
+@use '../../../../Shared/GlobalStyle/style.scss' as style;
+
+.item{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+}
+.itemTitle{
+    .itemName{
+        font-size: 24px;
+        font-weight: 800;
+    }
+    .itemDescript{
+        width: 450px;
+        padding: 20px 0px;
+    }
+    .deleteBtn{
+        width: 100px;
+        height: 30px;
+        border-radius: 10px;
+        border: 0px;
+        background-color: rgb(138, 0, 0);
+        color: white;
+    }
+    .deleteBtn:hover{
+        background-color: rgb(205, 0, 0);
+    }
+}
+.itemInfo{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .info{
+        font-size: 20px;
+        font-weight: 800;
+        p{
+            margin-top: 10px;
+        }
+    }
+    .itemImg{
+        width: 150px;
+        height: 120px;
+        overflow: hidden;
+        position: relative;
+        .Img{
+            width: 100%; 
+            height: auto; 
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}

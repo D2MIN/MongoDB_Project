@@ -2,51 +2,41 @@ import React, { useContext, useEffect, useState } from "react";
 import style from './ViewItemStorage.module.scss';
 import { useParams } from "react-router";
 import StorageContext from "../../../../App/StorageInfo/BL/useStorageContext.tsx";
+import { Item } from "../../Item/UI/Item.tsx";
 
 export function ViewItemStorage(){
 
     const {data,setData} = useContext(StorageContext);
-
-    const [dataLength, setDataLength] = useState<number>(data.length);
+    const [productCount,setProductCount] = useState();
     const [items,setItems] = useState<React.JSX.Element[]>([])
 
     useEffect(()=>{
         const fetchData = async()=>{
             const itemArr : React.JSX.Element[] = [];
             const product = await data.product;
-            console.log(product)
-            if(product != undefined || product[1].name != undefined){
+            if(product != undefined){
                 product.forEach((elem)=>{
                     if(elem.name != undefined){
                         itemArr.push(
-                            <div key={data._id} className={style.item}>
-                                    <div className={style.itemTitle}>
-                                        <div className={style.itemName}>
-                                            {elem.name}
-                                        </div>
-                                        <div className={style.itemDescript}>
-                                            {elem.about}               
-                                        </div>
-                                        <button className={style.deleteBtn}>Удалить</button>
-                                    </div>
-                                    <div className={style.itemInfo}>
-                                        <div className={style.info}>
-                                            <p>Колличество: {elem.itemCount}</p>
-                                            <p>Вес в кг: {elem.itemW}</p>
-                                        </div>
-                                        <div className={style.itemImg}>
-                                            <img className={style.Img} src={elem.imgPath} alt="IMG" />
-                                        </div>
-                                    </div>
-                                </div>
+                            Item(
+                                productCount,
+                                setProductCount,
+                                data._id,
+                                elem._id,
+                                elem.name,
+                                elem.about,
+                                elem.itemCount,
+                                elem.itemW,
+                                elem.imgPath
+                            )
                         );
                     }
                 });
             }
-            setItems(itemArr);
+            setItems(itemArr)
         }
         fetchData();
-    },[data,dataLength])
+    },[data])
 
     return(
         <div className={style.ViewItemStorage}>
