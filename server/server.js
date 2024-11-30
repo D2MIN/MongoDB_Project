@@ -149,6 +149,28 @@ app.put('/api/put/storage/:id/addproduct', async (req, res) => {
   }
 });
 
+// Запрос на добавление нового объекта в массив cars
+app.put('/api/put/storage/:id/addcar', async (req, res) => {
+  try {
+    const storageId = req.params.id;
+    const newCar = req.body;
+    
+    const updatedStorage = await storage.findByIdAndUpdate(
+      storageId,
+      { $push: { cars: newCar } },
+      { new: true } // Возвращает обновленный документ
+    );
+    if (!updatedStorage) {
+      return res.status(404).json({ error: "Склад не найден" });
+    }
+    res.json({ message: "Машина успешно добавлен", data: updatedStorage });
+    console.log('Машина успешно добавлен');
+  } catch (error) {
+    console.error("Ошибка при добавлении машины:", error);
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+});
+
 // Запрос на удаление объекта из массива product
 app.put('/api/put/storage/:id/removeproduct', async (req, res) => {
   try {

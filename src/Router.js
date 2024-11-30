@@ -8,6 +8,8 @@ import RegisterPage from "./Pages/RegisterPage/UI/RegisterPage.tsx";
 import UserPage from "./Pages/UserPage/UI/UserPage.tsx";
 import { ViewItemStorage } from "./Widgets/ItemStorage/ViewItemStorage/UI/ViewItemStorage.tsx";
 import { AddItemStorage } from "./Widgets/ItemStorage/AddItemStorage/UI/AddItemStorage.tsx";
+import { AddCarStorage } from "./Widgets/CarStorage/AddCarStorage/UI/AddCarStorage.tsx";
+import { ViewCarStorage } from "./Widgets/CarStorage/ViewCarStorage/UI/ViewCarStorage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ export const router = createBrowserRouter([
       {
         path : 'addItem',
         element : <AddItemStorage/>
+      },
+      {
+        path : 'viewCars',
+        element : <ViewCarStorage/>
+      },
+      {
+        path : 'addCars',
+        element : <AddCarStorage/>
       }
     ]
   },

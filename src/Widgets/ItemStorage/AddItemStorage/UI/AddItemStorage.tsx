@@ -10,8 +10,8 @@ export function AddItemStorage(){
 
     const [itemName, setItemName] = useState<string>('');
     const [itemDescript, setItemDescript] = useState<string>('');
-    const [itemCount, setItemCount] = useState<number>(0);
-    const [itemW, setItemW] = useState<number>(0);
+    const [itemCount, setItemCount] = useState<number>();
+    const [itemW, setItemW] = useState<number>();
 
     const navigate = useNavigate();
     const [storageId, setStorageId] = useState();
@@ -77,14 +77,14 @@ export function AddItemStorage(){
                          />
                         <input
                             className={style.numberItem} 
-                            type="text" 
+                            type="number" 
                             placeholder='Число'
                             value={itemCount}
                             onChange={(e)=>setItemCount(Number(e.target.value))}
                          />
                         <input
                             className={style.itemW} 
-                            type="text"
+                            type="number"
                             placeholder='Вес'
                             value={itemW}
                             onChange={(e)=>setItemW(Number(e.target.value))}

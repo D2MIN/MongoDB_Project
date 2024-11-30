@@ -1,0 +1,33 @@
+@use '../../../../Shared/GlobalStyle/style.scss' as style;
+
+.Car{
+    width: 200px;
+    height: 200px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.carSection{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .name,.capacity{
+        font-size: 18px;
+    }
+    .deleteBtn{
+        padding: 10px;
+        color: white;
+        border: 0px;
+        border-radius: 5px;
+        background-color: style.$blue1;
+        &:hover{
+            background-color: style.$blue2;
+        }
+    }
+}

@@ -10,7 +10,7 @@ function StorageInfo(){
 
     const [data,setData] = useState<object>({})
 
-    const [activeLinkList,setActiveLinkList] = useState<number[]>([1,0,0,0]);
+    const [activeLinkList,setActiveLinkList] = useState<number[]>([0,0,0,0]);
     const [storageImg, setStorageImg] = useState<string>('');
     const [storageName, setStorageName] = useState<string>('');
     const [storageAdress, setStorageAdress] = useState<string>('');

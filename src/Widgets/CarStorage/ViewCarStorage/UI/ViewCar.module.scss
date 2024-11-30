@@ -1,0 +1,16 @@
+.VieCarStorage{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carsSection{
+    margin: 50px 0px;
+    width: calc(200px * 4 + 10px * 4); //Длина элемента car и gap умноженая на количество нужных элементов
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}

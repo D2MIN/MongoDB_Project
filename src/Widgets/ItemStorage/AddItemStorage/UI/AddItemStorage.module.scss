@@ -9,7 +9,8 @@
 }
 
 .addItemForm{
-    border: 2px solid style.$blue1;
+    border: 1px solid #333;
+    box-shadow: 0px 4px 10px rgb(0, 0, 0);
     border-radius: 10px;
     padding: 50px;
 }
@@ -23,7 +24,7 @@
 }
 
 .imgItemSection{
-    border: 2px solid style.$blue1;
+    border: 1px solid #333;
     height: 150px;
     width: 200px;
     border-radius: 10px;
@@ -92,7 +93,7 @@
         font-size: 18px;
         height: 40px;
         width: 330px;
-        border: 2px solid style.$blue1;
+        border: 1px solid #333;
         border-radius: 5px;
     }
     .numberItem{
@@ -105,8 +106,8 @@
         font-size: 18px;
         padding-left: 10px;
         width: 150px;
-        height: 20px;
-        border: 2px solid style.$blue1;
+        height: 30px;
+        border: 1px solid #333;
         border-radius: 5px;
     }
 }
@@ -117,7 +118,7 @@
         width: calc(100% - 10px);
         height: 50px;
         padding-left: 10px;
-        border: 2px solid style.$blue1;
+        border: 1px solid #333;
         border-radius: 5px;
         font-size: 18px;
     }
@@ -130,15 +131,15 @@
     align-items: center;
     .addItemBtn{
         margin-top:30px;
-        width: 200px;
+        width: 300px;
         height: 40px;
-        border-radius: 10px;
+        border-radius: 5px;
         border: 0px;
         color: white;
         font-size: 18px;
-        background-color: rgb(0, 79, 0);
+        background-color: style.$blue1;
     }
     .addItemBtn:hover{
-        background-color: rgb(0, 121, 0);
+        background-color: style.$blue2;
     }
 }
