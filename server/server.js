@@ -6,7 +6,7 @@ import { users } from './UsersScheme.js';
 
 const app = express();
 const port = 8080; // Сервер будет слушать этот порт
-const url = 'mongodb://localhost:27017/storage';
+const url = 'mongodb://127.0.0.1:27017/storage';
 
 // Используем cors middleware для всех маршрутов
 app.use(cors());
@@ -111,11 +111,12 @@ app.get('/api/get/user/:login/:password', async(req, res)=>{
     if (referer !== 'http://localhost:3000/') {
       return res.status(403).json({ error: "Недопустимый источник запроса" });
     }
-    const login = req.params.login;
     const password = req.params.password;
+    const login = req.params.login;
     if (!login || !password) {
       return res.status(400).json({ error: "Необходимо указать логин и пароль" });
     }
+    console.log(login, password);
     const user = await users.findOne({ login, password });
     if (!user) {
       return res.status(404).json({ error: "Пользователь не найден" });
@@ -149,27 +150,6 @@ app.put('/api/put/storage/:id/addproduct', async (req, res) => {
   }
 });
 
-// Запрос на добавление нового объекта в массив cars
-app.put('/api/put/storage/:id/addcar', async (req, res) => {
-  try {
-    const storageId = req.params.id;
-    const newCar = req.body;
-    
-    const updatedStorage = await storage.findByIdAndUpdate(
-      storageId,
-      { $push: { cars: newCar } },
-      { new: true } // Возвращает обновленный документ
-    );
-    if (!updatedStorage) {
-      return res.status(404).json({ error: "Склад не найден" });
-    }
-    res.json({ message: "Машина успешно добавлен", data: updatedStorage });
-    console.log('Машина успешно добавлен');
-  } catch (error) {
-    console.error("Ошибка при добавлении машины:", error);
-    res.status(500).json({ error: "Ошибка сервера" });
-  }
-});
 
 // Запрос на удаление объекта из массива product
 app.put('/api/put/storage/:id/removeproduct', async (req, res) => {
@@ -196,6 +176,51 @@ app.put('/api/put/storage/:id/removeproduct', async (req, res) => {
   }
 });
 
+// Запрос на добавление нового объекта в массив cars
+app.put('/api/put/storage/:id/addcar', async (req, res) => {
+  try {
+    const storageId = req.params.id;
+    const newCar = req.body;
+    
+    const updatedStorage = await storage.findByIdAndUpdate(
+      storageId,
+      { $push: { cars: newCar } },
+      { new: true } // Возвращает обновленный документ
+    );
+    if (!updatedStorage) {
+      return res.status(404).json({ error: "Склад не найден" });
+    }
+    res.json({ message: "Машина успешно добавлен", data: updatedStorage });
+    console.log('Машина успешно добавлен');
+  } catch (error) {
+    console.error("Ошибка при добавлении машины:", error);
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+});
+
+// Запрос на удаление машины из массива Car
+app.put('/api/put/storage/:id/remotecar', async (req, res) => {
+  try {
+    const storageId = req.params.id;
+    const criteria = req.body; // Условие для удаления (например, { id: 2dsfhsf8sf })
+
+    const updatedStorage = await storage.findByIdAndUpdate(
+      storageId,
+      { $pull: { cars: criteria } }, // Удаляет элементы массива product, соответствующие criteria
+      { new: true } // Возвращает обновленный документ
+    );
+
+    if (!updatedStorage) {
+      return res.status(404).json({ error: "Склад не найден" });
+    }
+
+    console.log('Машина успешно удалена');
+    res.json({ message: "Машина успешно удалена", data: updatedStorage });
+  } catch (error) {
+    console.error("Ошибка при удалении машины:", error);
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+});
 
 // Запуск сервера
 app.listen(port, () => {

@@ -1,3 +1,5 @@
+@use '../../../../Shared/GlobalStyle/style.scss' as style;
+
 .VieCarStorage{
     width: 100%;
     height: auto;
@@ -13,4 +15,12 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 10px;
+}
+
+.EmptyCars{
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 900;
+    color: style.$blue1;
 }

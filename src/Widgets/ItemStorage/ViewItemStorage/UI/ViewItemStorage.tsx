@@ -34,7 +34,7 @@ export function ViewItemStorage(){
                 });
             }
             setItems(itemArr)
-        }
+        };
         fetchData();
     },[data])
 
