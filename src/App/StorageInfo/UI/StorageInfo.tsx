@@ -28,7 +28,6 @@ function StorageInfo(){
             }
             const data = await response.json();
             setData(data);
-            // console.log(data);
             setStorageImg(data.img);
             setStorageName(data.name);
             setStorageAdress(data.street);

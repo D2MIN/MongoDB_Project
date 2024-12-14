@@ -3,7 +3,7 @@ import style from './Car.module.scss'
 import { DeleteCar } from "../BL/DeleteCar.ts";
 import StorageContext from "../../../../App/StorageInfo/BL/useStorageContext.tsx";
 
-export function Car(props : {id:string,name:string,capacity:number, popupChanger}){
+export function Car(props : {id:string,name:string,capacity:number, popupChanger,setPopapCarName,setPopapCarLoad}){
 
     const {data,setData} = useContext(StorageContext);
     
@@ -13,6 +13,8 @@ export function Car(props : {id:string,name:string,capacity:number, popupChanger
 
     function openPopap(data,carId){
         const user = data.userLogin;
+        props.setPopapCarName(props.name);
+        props.setPopapCarLoad(props.capacity);
         props.popupChanger(true);
     }
 

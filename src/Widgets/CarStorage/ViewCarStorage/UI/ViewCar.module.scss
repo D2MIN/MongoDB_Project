@@ -10,7 +10,7 @@
 
 .carsSection{
     margin: 50px 0px;
-    width: calc(200px * 4 + 10px * 4); //Длина элемента car и gap умноженая на количество нужных элементов
+    width: calc(240px * 3 + 10px * 3); //Длина элемента car и gap умноженая на количество нужных элементов
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -26,14 +26,17 @@
 }
 
 .popapSection{
-    position: absolute;
+    position: fixed;
+    top: calc(50% - 320px);
+    left: calc(50% - 400px);
     background-color: white;
-    border: 4px solid style.$blue2;
+    border: 4px solid #333;
     border-radius: 20px;
     width: 700px;
     min-height: 300px;
     padding: 30px;
-    margin-bottom: 150px;
+    z-index: 3;
+    box-shadow: 1px 1px 1000px black;
 }
 
 .popap{
@@ -47,7 +50,7 @@
 }
 
 .storageItems,.allStorages{
-    border: 4px solid style.$blue2;
+    border: 4px solid #333;
     border-radius: 10px;
     margin-top: 50px;
     width: 100%;
@@ -82,13 +85,13 @@
 }
 
 .allStorages{
-    border: 4px solid style.$blue2;
+    border: 4px solid #333;
     border-radius: 10px;
     display: flex;
     .storage{
         height: 50px;
         width: 80%;
-        border: 2px solid style.$blue2;
+        border: 3px solid #333;
         border-radius: 10px;
         font-size: 24px;
         display: flex;

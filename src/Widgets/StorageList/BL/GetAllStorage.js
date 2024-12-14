@@ -4,13 +4,14 @@ export async function GetAllStorage(user){
         const allStorage = await response.json(); // Преобразуем ответ в JSON
         let storageInfo = [];
         allStorage.forEach(el => {
+            
             storageInfo.push({
                 id : el._id,
                 img : el.img,
                 name : el.name,
                 adress : el.street,
                 aboutInfo : el.about,
-                countCar : el.carNumber,
+                countCar : el.cars.length - 1,
             });
         });
         return storageInfo;
