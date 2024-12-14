@@ -14,12 +14,12 @@ function StorageList({searchTitle} : StorageListPropI){
     const [allStorage, setAllStorage] = useState<StorageInfoI[]>([]);
 
     useEffect(()=>{
+        const user: string|undefined = document.cookie.split('; ').find(row => row.startsWith('userName='));
+        const userName = user ? user.split('=')[1] : undefined; // Проверка на undefined
         if(searchTitle == ""){
-            const user: string|undefined = document.cookie.split('; ').find(row => row.startsWith('userName='));
-            const userName = user ? user.split('=')[1] : undefined; // Проверка на undefined
             GetAllStorage(userName).then((allStorage) => setAllStorage(allStorage));
         }else{
-            GetData(searchTitle).then((allStorage) => setAllStorage(allStorage));
+            GetData(searchTitle, userName).then((allStorage) => setAllStorage(allStorage));
         }
     },[searchTitle]);
     

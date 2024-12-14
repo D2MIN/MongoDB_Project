@@ -1,8 +1,8 @@
 @use '../../../../Shared/GlobalStyle/style.scss' as style;
 
 .Car{
-    width: 200px;
-    height: 200px;
+    width: 240px;
+    height: 240px;
     border: 1px solid #333;
     border-radius: 10px;
     box-shadow: 0px 4px 10px;
@@ -18,11 +18,25 @@
     gap: 10px;
 
     .name,.capacity{
-        font-size: 18px;
+        font-weight: 900;
+        font-size: 20px;
     }
     .deleteBtn{
         padding: 10px;
+        color: black;
+        font-weight: 900;
+        border: 0px;
+        border-radius: 5px;
+        background-color: #ff6868;
+        &:hover{
+            color: white;
+            background-color: #a30000;
+        }
+    }
+    .pushBtn{
+        padding: 10px;
         color: white;
+        font-weight: 900;
         border: 0px;
         border-radius: 5px;
         background-color: style.$blue1;

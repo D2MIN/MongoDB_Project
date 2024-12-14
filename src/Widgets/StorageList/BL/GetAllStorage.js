@@ -16,7 +16,6 @@ export async function GetAllStorage(user){
         return storageInfo;
     } catch (error) {
         return [];
-        console.log('Ошибка загрузки данных : \n', error);
     }
 }
 

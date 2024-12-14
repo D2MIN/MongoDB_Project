@@ -24,3 +24,116 @@
     font-weight: 900;
     color: style.$blue1;
 }
+
+.popapSection{
+    position: absolute;
+    background-color: white;
+    border: 4px solid style.$blue2;
+    border-radius: 20px;
+    width: 700px;
+    min-height: 300px;
+    padding: 30px;
+    margin-bottom: 150px;
+}
+
+.popap{
+    .carinfo{
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        font-size: 26px;
+        font-weight: 800;
+    }
+}
+
+.storageItems,.allStorages{
+    border: 4px solid style.$blue2;
+    border-radius: 10px;
+    margin-top: 50px;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    overflow: scroll;
+
+    .item{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .itemName{
+        font-size: 20px;
+    }
+
+    .addItemBtn{
+        width: 200px;
+        padding: 5px;
+        background-color: style.$blue2;
+        color: white;
+        border: 0px;
+        border-radius: 10px;
+    }
+    .addItemBtn:hover{
+        background-color: style.$blue3;
+    }
+}
+
+.allStorages{
+    border: 4px solid style.$blue2;
+    border-radius: 10px;
+    display: flex;
+    .storage{
+        height: 50px;
+        width: 80%;
+        border: 2px solid style.$blue2;
+        border-radius: 10px;
+        font-size: 24px;
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 30px;
+        align-items: center;
+    }
+    .selectStorage{
+        width: 150px;
+        padding: 10px;
+        border: 0px;
+        border-radius: 10px;
+        color: white;
+        background-color: style.$blue2;
+    }
+    .selectStorage:hover{
+        background-color: style.$blue3;
+    }
+}
+
+.btnSection{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    .subBtn{
+        width: 150px;
+        padding: 10px;
+        border: 0px;
+        border-radius: 10px;
+        color: white;
+        background-color: style.$blue2;
+    }
+    .subBtn:hover{
+        background-color: style.$blue3;
+    }
+    .closeBtn{
+        width: 150px;
+        padding: 10px;
+        border: 0px;
+        border-radius: 10px;
+        color: white;
+        background-color: #ff6868;
+    }
+    .closeBtn:hover{
+        background-color: rgb(125, 0, 0);
+    }
+}
