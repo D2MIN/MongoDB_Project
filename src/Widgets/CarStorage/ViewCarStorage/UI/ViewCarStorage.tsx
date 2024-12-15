@@ -1,18 +1,26 @@
-import React, { ReactElement, useContext, useEffect, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import style from './ViewCar.module.scss'
 import { Car } from "../../Car/UI/Car.tsx";
 import StorageContext from "../../../../App/StorageInfo/BL/useStorageContext.tsx";
 import { GetAllStorage } from "../../../StorageList/BL/GetAllStorage.js";
+import { parsePath } from "react-router";
 
 export function ViewCarStorage(){
 
     const [popapFlag, setPopapFlag] = useState<boolean>(false)
     const {data,setData} = useContext(StorageContext);
     const [carsList, setCarList] = useState<React.JSX.Element []>([]);
+
     const [popapCarName, setPopapCarName] = useState<string>('');
     const [popapCarWeight, setPopapCarWeight] = useState<number>(0);
     const [popapCarLoad, setPopapCarLoad] = useState<number>(0);
     const [AllStorage, setAllStorage] = useState<any>();
+
+    const [itemStatus, setItemStatus] = useState({});
+    const [itemStatusBackap, setItemStatusBackap] = useState({});
+    const [load, setLoad] = useState<number>(0);
+
+    const [selectStorage, setSelectStorage] = useState<boolean | string>(false);
     
     useEffect(()=>{
 
@@ -39,8 +47,26 @@ export function ViewCarStorage(){
                 }
             });
             setCarList(carsList);
+            
+            const allProduct = data.product;
+            allProduct.forEach((el)=>{
+                if(el.name != undefined){
+                    itemStatusBackap[`${el._id}`] == undefined ? 
+                        setItemStatusBackap(prevState => ({
+                            ...prevState,
+                            [`${el._id}`]: el.itemCount
+                        })) : 
+                        setItemStatusBackap(prevState => ({
+                            ...prevState,
+                            [`${el._id}`]: prevState[`${el._id}`]
+                        }));
+                }
+            });
+            setItemStatus(itemStatusBackap);
+            setLoad(0);
+            setSelectStorage(false);
         }
-    },[data]);
+    },[data, popapFlag]);
 
     function getProducts(){
         const allProduct = data.product;
@@ -49,13 +75,25 @@ export function ViewCarStorage(){
         allProduct.forEach((el)=>{
             if(el.name != undefined){
                 viewProduclList.push(
-                    <div className={style.item}>
+                    <div key={el._id} className={style.item}>
                         <p className={style.itemName}>Название - {el.name}</p>
                         <p className={style.itemName}>Колличество - {el.itemCount}</p>
                         <p className={style.itemName}>Вес - {el.itemW}</p>
-                        <button className={style.addItemBtn}>Добавить</button>
+                        <button 
+                            className={style.addItemBtn} 
+                            onClick={()=>{
+                                setItemStatus(prevState => ({
+                                    ...prevState,
+                                    [`${el._id}`]: prevState[`${el._id}`] - 1
+                                }));
+                                setLoad(load + el.itemW);
+                            }} 
+                            disabled={itemStatus[`${el._id}`] > 0 ? false : true}
+                        >
+                            Добавить
+                        </button>
                     </div>
-                )
+                );
             }
         });
 
@@ -66,12 +104,19 @@ export function ViewCarStorage(){
         let viewStorageList : React.JSX.Element[] = [];
         AllStorage.forEach((el)=>{
             viewStorageList.push(
-                <div className={style.storage}>
+                <div key={el._id} className={`${style.storage} ${selectStorage == el.id ? style.greenBg : style.grayBg}`}>
                     <p className={style.storageName}>{el.name}</p>
-                    <button className={style.selectStorage}>Выбрать</button>
+                    <button 
+                        className={style.selectStorage}
+                        onClick={()=>{
+                            setSelectStorage(el.id)
+                        }}
+                        disabled = {selectStorage == false ? false : true}
+                    >
+                        Выбрать
+                    </button>
                 </div>
-            )
-            console.log(el.name)
+            );
         });
         return viewStorageList;
     };
@@ -85,7 +130,7 @@ export function ViewCarStorage(){
                         <div className={style.carinfo}>
                             <p className={style.carName}>Название: {popapCarName} </p>
                             <p className={style.carWeight}>Вместимость: {popapCarWeight}</p>
-                            <p className={style.carWeight}>Нагрузка: 0кг</p>
+                            <p className={`${style.carWeight} ${load > popapCarWeight ? style.redW : style.G}`}>Нагрузка: {load}кг</p>
                         </div>
                         <div className={style.storageItems}>
                             <h1>Выберите предметы для перевозки</h1>

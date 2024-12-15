@@ -47,6 +47,9 @@
         font-size: 26px;
         font-weight: 800;
     }
+    .redW{
+        color: red;
+    }
 }
 
 .storageItems,.allStorages{
@@ -78,6 +81,14 @@
         color: white;
         border: 0px;
         border-radius: 10px;
+        cursor: pointer;
+    }
+    .addItemBtn:disabled{
+        cursor: no-drop;
+        background-color: #333;
+    }
+    .addItemBtn:disabled:hover{
+        background-color: #333;
     }
     .addItemBtn:hover{
         background-color: style.$blue3;
@@ -106,9 +117,20 @@
         border-radius: 10px;
         color: white;
         background-color: style.$blue2;
+        cursor: pointer;
     }
     .selectStorage:hover{
         background-color: style.$blue3;
+    }
+    .selectStorage:disabled{
+        cursor: no-drop;
+        background-color: #333;
+    }
+    .selectStorage:disabled:hover{
+        background-color: #333;
+    }
+    .greenBg{
+        background-color: rgb(29, 204, 29);
     }
 }
 
