@@ -4,6 +4,7 @@ import { Car } from "../../Car/UI/Car.tsx";
 import StorageContext from "../../../../App/StorageInfo/BL/useStorageContext.tsx";
 import { GetAllStorage } from "../../../StorageList/BL/GetAllStorage.js";
 import { parsePath } from "react-router";
+import { Send } from "../BL/Send.ts";
 
 export function ViewCarStorage(){
 
@@ -13,17 +14,17 @@ export function ViewCarStorage(){
 
     const [popapCarName, setPopapCarName] = useState<string>('');
     const [popapCarWeight, setPopapCarWeight] = useState<number>(0);
-    const [popapCarLoad, setPopapCarLoad] = useState<number>(0);
     const [AllStorage, setAllStorage] = useState<any>();
 
     const [itemStatus, setItemStatus] = useState({});
     const [itemStatusBackap, setItemStatusBackap] = useState({});
     const [load, setLoad] = useState<number>(0);
+    const [sendItems, setSendItems] = useState({});
+    const [carSendID, setCarSendID] = useState<string>('');
 
     const [selectStorage, setSelectStorage] = useState<boolean | string>(false);
     
     useEffect(()=>{
-
         GetAllStorage(data.userLogin).then((allStorage) => setAllStorage(allStorage));
 
         if(data.cars == undefined){
@@ -42,6 +43,7 @@ export function ViewCarStorage(){
                             popupChanger = {setPopapFlag} 
                             setPopapCarName = {setPopapCarName}
                             setPopapCarLoad = {setPopapCarWeight}
+                            setCarSendID = {setCarSendID}
                         />
                     )
                 }
@@ -65,6 +67,7 @@ export function ViewCarStorage(){
             setItemStatus(itemStatusBackap);
             setLoad(0);
             setSelectStorage(false);
+            setSendItems({});
         }
     },[data, popapFlag]);
 
@@ -87,6 +90,10 @@ export function ViewCarStorage(){
                                     [`${el._id}`]: prevState[`${el._id}`] - 1
                                 }));
                                 setLoad(load + el.itemW);
+                                setSendItems(prevState => ({
+                                    ...prevState,
+                                    [`${el._id}`]: prevState[`${el._id}`] != undefined ? prevState[`${el._id}`] +  1 : 1
+                                }));
                             }} 
                             disabled={itemStatus[`${el._id}`] > 0 ? false : true}
                         >
@@ -103,23 +110,26 @@ export function ViewCarStorage(){
     function getStorages(){
         let viewStorageList : React.JSX.Element[] = [];
         AllStorage.forEach((el)=>{
-            viewStorageList.push(
-                <div key={el._id} className={`${style.storage} ${selectStorage == el.id ? style.greenBg : style.grayBg}`}>
-                    <p className={style.storageName}>{el.name}</p>
-                    <button 
-                        className={style.selectStorage}
-                        onClick={()=>{
-                            setSelectStorage(el.id)
-                        }}
-                        disabled = {selectStorage == false ? false : true}
-                    >
-                        Выбрать
-                    </button>
-                </div>
-            );
+            if(el.id != data._id){
+                viewStorageList.push(
+                    <div key={el._id} className={`${style.storage} ${selectStorage == el.id ? style.greenBg : style.grayBg}`}>
+                        <p className={style.storageName}>{el.name}</p>
+                        <button 
+                            className={style.selectStorage}
+                            onClick={()=>{
+                                setSelectStorage(el.id)
+                            }}
+                            disabled = {selectStorage == false ? false : true}
+                        >
+                            Выбрать
+                        </button>
+                    </div>
+                );
+            }
         });
         return viewStorageList;
     };
+
 
     return(
         <div className={style.VieCarStorage}>
@@ -143,6 +153,15 @@ export function ViewCarStorage(){
                         <div className={style.btnSection}>
                             <button 
                                 className={style.subBtn}
+                                onClick={()=>{
+                                        setPopapFlag(false);
+                                        if(popapCarWeight > load){
+                                            Send(data._id, selectStorage, sendItems, carSendID);
+                                        }else{
+                                            alert('Машина столько не вместит');
+                                        }
+                                    }
+                                }
                             >
                                 Отправить
                             </button>

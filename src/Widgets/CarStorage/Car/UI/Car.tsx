@@ -3,7 +3,7 @@ import style from './Car.module.scss'
 import { DeleteCar } from "../BL/DeleteCar.ts";
 import StorageContext from "../../../../App/StorageInfo/BL/useStorageContext.tsx";
 
-export function Car(props : {id:string,name:string,capacity:number, popupChanger,setPopapCarName,setPopapCarLoad}){
+export function Car(props : {id:string,name:string,capacity:number, popupChanger,setPopapCarName,setPopapCarLoad,setCarSendID}){
 
     const {data,setData} = useContext(StorageContext);
     
@@ -16,6 +16,7 @@ export function Car(props : {id:string,name:string,capacity:number, popupChanger
         props.setPopapCarName(props.name);
         props.setPopapCarLoad(props.capacity);
         props.popupChanger(true);
+        props.setCarSendID(props.id);
     }
 
     return(
@@ -25,7 +26,9 @@ export function Car(props : {id:string,name:string,capacity:number, popupChanger
                 <p className={style.capacity}>Вместимость: {props.capacity}кг</p>
                 <button 
                     className={style.pushBtn}
-                    onClick={()=>{openPopap(data, props.id)}}
+                    onClick={()=>{
+                        openPopap(data, props.id)
+                    }}
                 >
                     Отправить
                 </button>

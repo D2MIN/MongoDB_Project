@@ -50,7 +50,7 @@ app.get('/api/get/storage/:user', async (req, res) => {
   try {
     const user = req.params.user;
     const allStorage = await storage.find({ userLogin: user });
-    res.json(allStorage);
+    res.status(200).json(allStorage);
   } catch (error) {
       console.error("Ошибка при получении данных:", error);
       res.status(500).json({ error: "Ошибка сервера" });
@@ -142,8 +142,11 @@ app.put('/api/put/storage/:id/addproduct', async (req, res) => {
     if (!updatedStorage) {
       return res.status(404).json({ error: "Склад не найден" });
     }
-    res.json({ message: "Продукт успешно добавлен", data: updatedStorage });
+    res.json({ message: "Продукт успешно добавлен"});
     console.log('Продукт успешно добавлен');
+
+
+
   } catch (error) {
     console.error("Ошибка при добавлении продукта:", error);
     res.status(500).json({ error: "Ошибка сервера" });
@@ -169,7 +172,7 @@ app.put('/api/put/storage/:id/removeproduct', async (req, res) => {
     }
 
     console.log('Продукт успешно удален');
-    res.json({ message: "Продукт успешно удален", data: updatedStorage });
+    res.json({ message: "Продукт успешно удален"});
   } catch (error) {
     console.error("Ошибка при удалении продукта:", error);
     res.status(500).json({ error: "Ошибка сервера" });
@@ -190,8 +193,8 @@ app.put('/api/put/storage/:id/addcar', async (req, res) => {
     if (!updatedStorage) {
       return res.status(404).json({ error: "Склад не найден" });
     }
-    res.json({ message: "Машина успешно добавлен", data: updatedStorage });
-    console.log('Машина успешно добавлен');
+    res.json({ message: "Машина успешно добавлен"});
+    console.log('Машина успешно добавлена');
   } catch (error) {
     console.error("Ошибка при добавлении машины:", error);
     res.status(500).json({ error: "Ошибка сервера" });
@@ -221,6 +224,114 @@ app.put('/api/put/storage/:id/remotecar', async (req, res) => {
     res.status(500).json({ error: "Ошибка сервера" });
   }
 });
+
+// Запрос на отправку товаров
+app.put('/api/put/storage/:onStorageID/to/:toStorageID/sendproduct', async (req,res) => {
+  try {
+    const onStorageID = req.params.onStorageID;
+    const toStorageID = req.params.toStorageID;
+    const sendProducts = req.body.products;
+    const carSendID = req.body.carSendID;
+
+    const sendProductByReplace = [];
+
+    // Изминения бд записи склада с которого отправляют
+    const onStorageInfo = await storage.findById(onStorageID);
+    const onProduct = onStorageInfo.product;
+    let newProduct = onProduct;
+    onProduct.forEach((onProduct)=>{
+      for(let product in sendProducts){
+        if(onProduct._id == product){
+          let itemCount = onProduct.itemCount - sendProducts[product];
+          sendProductByReplace.push(onProduct);
+          if(itemCount > 0){
+            newProduct[newProduct.indexOf(onProduct)].itemCount = newProduct[newProduct.indexOf(onProduct)].itemCount - sendProducts[product];
+          }else{
+            newProduct.splice(newProduct.indexOf(onProduct),1);
+          }
+        }
+      }
+    });
+
+
+    const updatedStorage = await storage.findByIdAndUpdate(
+      onStorageID,
+      { $set: { product: newProduct } }, // Устанавливаем поле product в пустой массив
+      { new: true } // Возвращает обновленный документ
+    );
+
+    // Изминение бд записи склада на который отправляют
+    const toStorageInfo = await storage.findById(toStorageID); // Получаю коллекцию склад
+    const toProduct = toStorageInfo.product; // Получаю продукты на складе
+    
+    // Замена числа отправленных
+    sendProductByReplace.forEach((productByReplace)=>{
+      for(let sendProductID in sendProducts){
+        if(sendProductID == productByReplace._id){
+          productByReplace.itemCount = sendProducts[sendProductID];
+        }
+      }
+    });
+    // Замена числа отправленных если они уже были
+    sendProductByReplace.forEach((productByReplace)=>{
+      toProduct.forEach((toProduct)=>{
+        if(toProduct._id.toString() == productByReplace._id.toString()){
+          productByReplace.itemCount += toProduct.itemCount;
+        }
+      });
+    });
+    // Добавление тех что были на складе но не отправленные
+    let voidSendProduct = [];
+    toProduct.forEach((toProduct)=>{
+      sendProductByReplace.forEach((productByReplace)=>{
+        if(toProduct._id.toString() != productByReplace._id.toString()){
+          voidSendProduct.push(toProduct);
+          console.log('Add to void');
+        }
+      });
+    });
+    voidSendProduct.forEach((product)=>{
+      sendProductByReplace.push(product);
+    });
+    
+    const updatedToStorage = await storage.findByIdAndUpdate(
+      toStorageID,
+      { $set: { product: sendProductByReplace } }, // Устанавливаем поле product в новый массив обьектов
+      { new: true } // Возвращает обновленный документ
+    );
+    if(updatedToStorage){
+      console.log('Успешно отправили');
+    }
+
+    // const onCars = onStorageInfo.cars;
+    // const toCars = toStorageInfo.cars;
+    // let newOnCars = [];
+    // let newToCar = {};
+    // onCars.forEach((car)=>{
+    //   if(car._id.toString() != carSendID){
+    //     newOnCars.push(car);
+    //   }else{
+    //     newToCar = car;
+    //   }
+    // });
+    // toCars.push(newToCar);
+
+    // const updatedOnCars = await storage.findByIdAndUpdate(
+    //   onStorageID,
+    //   { $set: { cars: newOnCars } }, 
+    //   { new: true }
+    // );
+    // const updatedToCars = await storage.findByIdAndUpdate(
+    //   toStorageID,
+    //   { $set: { cars: toCars } }, 
+    //   { new: true }
+    // );
+
+  } catch (error) {
+    console.error("Ошибка при отправки товаров:", error);
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+})
 
 // Запуск сервера
 app.listen(port, () => {
