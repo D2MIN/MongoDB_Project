@@ -233,30 +233,36 @@ app.put('/api/put/storage/:onStorageID/to/:toStorageID/sendproduct', async (req,
     const sendProducts = req.body.products;
     const carSendID = req.body.carSendID;
 
+
     const sendProductByReplace = [];
 
     // Изминения бд записи склада с которого отправляют
     const onStorageInfo = await storage.findById(onStorageID);
+    // Продукты которые находятся на складе.
     const onProduct = onStorageInfo.product;
     let newProduct = onProduct;
     onProduct.forEach((onProduct)=>{
       for(let product in sendProducts){
         if(onProduct._id == product){
           let itemCount = onProduct.itemCount - sendProducts[product];
-          sendProductByReplace.push(onProduct);
-          if(itemCount > 0){
-            newProduct[newProduct.indexOf(onProduct)].itemCount = newProduct[newProduct.indexOf(onProduct)].itemCount - sendProducts[product];
-          }else{
-            newProduct.splice(newProduct.indexOf(onProduct),1);
-          }
+          sendProductByReplace.push(onProduct); // Необходимо оставить но это для отправки а не для замены
+          newProduct[newProduct.indexOf(onProduct)].itemCount = newProduct[newProduct.indexOf(onProduct)].itemCount - sendProducts[product];
         }
       }
     });
 
+    // Массив для вещей обновленного склада после отправки
+    let newProductReplace = [];
+    newProduct.forEach(elem=>{
+      // Проверка на незакончивщиеся вещи
+      if(elem.itemCount != 0){
+        newProductReplace.push(elem);
+      }
+    });
 
     const updatedStorage = await storage.findByIdAndUpdate(
       onStorageID,
-      { $set: { product: newProduct } }, // Устанавливаем поле product в пустой массив
+      { $set: { product: newProductReplace } }, // Устанавливаем поле product в новый массив
       { new: true } // Возвращает обновленный документ
     );
 
@@ -264,6 +270,11 @@ app.put('/api/put/storage/:onStorageID/to/:toStorageID/sendproduct', async (req,
     const toStorageInfo = await storage.findById(toStorageID); // Получаю коллекцию склад
     const toProduct = toStorageInfo.product; // Получаю продукты на складе
     
+    let toProductObj = {};
+    toProduct.forEach(elem =>{
+      toProductObj[elem._id.toString()] = true;
+    });
+
     // Замена числа отправленных
     sendProductByReplace.forEach((productByReplace)=>{
       for(let sendProductID in sendProducts){
@@ -280,19 +291,18 @@ app.put('/api/put/storage/:onStorageID/to/:toStorageID/sendproduct', async (req,
         }
       });
     });
-    // Добавление тех что были на складе но не отправленные
-    let voidSendProduct = [];
-    toProduct.forEach((toProduct)=>{
-      sendProductByReplace.forEach((productByReplace)=>{
-        if(toProduct._id.toString() != productByReplace._id.toString()){
-          voidSendProduct.push(toProduct);
-          console.log('Add to void');
-        }
-      });
+
+    sendProductByReplace.forEach(elem => {
+      toProductObj[elem._id.toString()] = false; 
     });
-    voidSendProduct.forEach((product)=>{
-      sendProductByReplace.push(product);
+
+    toProduct.forEach(elem =>{
+      if(toProductObj[elem._id.toString()]){
+        sendProductByReplace.push(elem);
+      };
     });
+
+    
     
     const updatedToStorage = await storage.findByIdAndUpdate(
       toStorageID,
@@ -303,29 +313,29 @@ app.put('/api/put/storage/:onStorageID/to/:toStorageID/sendproduct', async (req,
       console.log('Успешно отправили');
     }
 
-    // const onCars = onStorageInfo.cars;
-    // const toCars = toStorageInfo.cars;
-    // let newOnCars = [];
-    // let newToCar = {};
-    // onCars.forEach((car)=>{
-    //   if(car._id.toString() != carSendID){
-    //     newOnCars.push(car);
-    //   }else{
-    //     newToCar = car;
-    //   }
-    // });
-    // toCars.push(newToCar);
+    const onCars = onStorageInfo.cars;
+    const toCars = toStorageInfo.cars;
+    let newOnCars = [];
+    let newToCar = {};
+    onCars.forEach((car)=>{
+      if(car._id.toString() != carSendID){
+        newOnCars.push(car);
+      }else{
+        newToCar = car;
+      }
+    });
+    toCars.push(newToCar);
 
-    // const updatedOnCars = await storage.findByIdAndUpdate(
-    //   onStorageID,
-    //   { $set: { cars: newOnCars } }, 
-    //   { new: true }
-    // );
-    // const updatedToCars = await storage.findByIdAndUpdate(
-    //   toStorageID,
-    //   { $set: { cars: toCars } }, 
-    //   { new: true }
-    // );
+    const updatedOnCars = await storage.findByIdAndUpdate(
+      onStorageID,
+      { $set: { cars: newOnCars } }, 
+      { new: true }
+    );
+    const updatedToCars = await storage.findByIdAndUpdate(
+      toStorageID,
+      { $set: { cars: toCars } }, 
+      { new: true }
+    );
 
   } catch (error) {
     console.error("Ошибка при отправки товаров:", error);
