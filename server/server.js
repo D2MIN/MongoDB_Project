@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import { storage } from './StorageScheme.js';
 import { users } from './UsersScheme.js';
+import {sendCars} from './SendCarsScheme.js';
 
 const app = express();
 const port = 8080; // Сервер будет слушать этот порт
@@ -152,7 +153,6 @@ app.put('/api/put/storage/:id/addproduct', async (req, res) => {
     res.status(500).json({ error: "Ошибка сервера" });
   }
 });
-
 
 // Запрос на удаление объекта из массива product
 app.put('/api/put/storage/:id/removeproduct', async (req, res) => {
@@ -339,6 +339,46 @@ app.put('/api/put/storage/:onStorageID/to/:toStorageID/sendproduct', async (req,
 
   } catch (error) {
     console.error("Ошибка при отправки товаров:", error);
+    res.status(500).json({ error: "Ошибка сервера" });
+  }
+})
+
+app.post('/api/post/sendcars', async (req,res) => {
+  try {
+    const {carName, carID, carItem, carDate, onStorageID, toStorageID} = req.body;
+    
+    // Информация склада отправителя
+    const onStorageInfo = await storage.findById(onStorageID);
+    // Продукты которые находятся на складе отправителя.
+    const onProduct = onStorageInfo.product;
+    // Массив с ID отправленных товаров из carItem
+    let sendProductID = [];
+    for(let productID in carItem){
+      sendProductID.push(productID);
+    }
+    // Сверяем ID и добавляем товары
+    let sendProduct = [];
+    onProduct.forEach(product => {
+      if(sendProductID.indexOf(product.id) != -1){
+        let newProduct = product;
+        newProduct.itemCount = carItem[product._id];
+        sendProduct.push(newProduct);
+      }
+    });
+    
+    const newSendCar = new sendCars({
+      carName: carName,
+      carID : carID,
+      carItem: sendProduct, 
+      carDate: carDate,
+      onStorage: onStorageID,
+      toStorage: toStorageID
+    });
+    newSendCar.save()
+      .then(()=>{console.log("Машина отправлена")})
+      .catch(()=>console.log('Ошибка отправки машины'))
+    res.status(200).json({status: 'send'});
+  } catch (error) {
     res.status(500).json({ error: "Ошибка сервера" });
   }
 })

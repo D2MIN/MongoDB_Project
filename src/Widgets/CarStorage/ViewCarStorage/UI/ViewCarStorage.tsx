@@ -21,6 +21,7 @@ export function ViewCarStorage(){
     const [load, setLoad] = useState<number>(0);
     const [sendItems, setSendItems] = useState({});
     const [carSendID, setCarSendID] = useState<string>('');
+    const [carSendName, setCarSendName] = useState<string>('');
 
     const [selectStorage, setSelectStorage] = useState<boolean | string>(false);
     
@@ -44,6 +45,7 @@ export function ViewCarStorage(){
                             setPopapCarName = {setPopapCarName}
                             setPopapCarLoad = {setPopapCarWeight}
                             setCarSendID = {setCarSendID}
+                            setCarSendName = {setCarSendName}
                         />
                     )
                 }
@@ -155,11 +157,16 @@ export function ViewCarStorage(){
                                 className={style.subBtn}
                                 onClick={()=>{
                                         setPopapFlag(false);
-                                        if(popapCarWeight > load){
-                                            Send(data._id, selectStorage, sendItems, carSendID);
-                                        }else{
+                                        if(popapCarWeight < load){
                                             alert('Машина столько не вместит');
-                                        }
+                                        };
+                                        if(selectStorage == false){ alert('Вы должны выбрать склад') };
+                                        if(popapCarWeight > load && selectStorage != false){
+                                            let today = new Date();
+                                            let nextday = new Date(today);
+                                            nextday.setDate(today.getDate() + 1);
+                                            Send(carSendName,carSendID,sendItems,nextday,data._id.toString(),selectStorage);
+                                        };
                                     }
                                 }
                             >
