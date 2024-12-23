@@ -1,0 +1,73 @@
+@use '../../../../Shared/GlobalStyle/style.scss' as style;
+
+.deliveriItems {
+    background-color: style.$blue1;
+    padding: 16px;
+    border-radius: 8px;
+    color: style.$blue2-l;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.deliveriItem {
+    background-color: #fff;
+    margin-bottom: 16px;
+    padding: 16px;
+    border: 1px solid style.$blue2-l;
+    border-radius: 8px;
+    color: style.$blue1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.deliveriItem__info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.deliveriItem__info__leftBlock {
+    color: style.$blue1;
+    font-weight: bold;
+}
+
+.deliveriItem__info__rigthBlock {
+    color: style.$blue1;
+    font-weight: bold;
+    text-align: right;
+}
+
+.deliveriItem__buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.button__accept {
+    background-color: rgb(76, 175, 80); /* Green button */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button__accept:hover {
+    background-color: rgb(67, 160, 71);
+}
+
+.button__content {
+    background-color: style.$blue2;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button__content:hover {
+    background-color: style.$blue3;
+}

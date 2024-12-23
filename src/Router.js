@@ -10,6 +10,7 @@ import { ViewItemStorage } from "./Widgets/ItemStorage/ViewItemStorage/UI/ViewIt
 import { AddItemStorage } from "./Widgets/ItemStorage/AddItemStorage/UI/AddItemStorage.tsx";
 import { AddCarStorage } from "./Widgets/CarStorage/AddCarStorage/UI/AddCarStorage.tsx";
 import { ViewCarStorage } from "./Widgets/CarStorage/ViewCarStorage/UI/ViewCarStorage.tsx";
+import DeliverisPage from "./Widgets/Deliveries/Page/UI/DeliveriesPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path : 'addCars',
         element : <AddCarStorage/>
+      },
+      {
+        path : 'deliveries',
+        element : <DeliverisPage/>
       }
     ]
   },

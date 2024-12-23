@@ -10,7 +10,7 @@ function StorageInfo(){
 
     const [data,setData] = useState<object>({})
 
-    const [activeLinkList,setActiveLinkList] = useState<number[]>([0,0,0,0]);
+    const [activeLinkList,setActiveLinkList] = useState<number[]>([0,0,0,0,0]);
     const [storageImg, setStorageImg] = useState<string>('');
     const [storageName, setStorageName] = useState<string>('');
     const [storageAdress, setStorageAdress] = useState<string>('');
@@ -78,7 +78,7 @@ function StorageInfo(){
                         <Link 
                             to='./'
                             className={`${style.link} ${activeLinkList[0] ? style.activeLink : ''}`}
-                            onClick={()=>setActiveLinkList([1,0,0,0])}
+                            onClick={()=>setActiveLinkList([1,0,0,0,0])}
                         >Просмотр товаров
                         </Link>
                     </div>
@@ -86,7 +86,7 @@ function StorageInfo(){
                         <Link 
                             to='addItem'
                             className={`${style.link} ${activeLinkList[1] ? style.activeLink : ''}`}
-                            onClick={()=>setActiveLinkList([0,1,0,0])}
+                            onClick={()=>setActiveLinkList([0,1,0,0,0])}
                         >Добавить товар
                         </Link>
                     </div>
@@ -94,7 +94,7 @@ function StorageInfo(){
                         <Link 
                             to='viewCars'
                             className={`${style.link} ${activeLinkList[2] ? style.activeLink : ''}`}
-                            onClick={()=>setActiveLinkList([0,0,1,0])}
+                            onClick={()=>setActiveLinkList([0,0,1,0,0])}
                         >Просмотр машин
                         </Link>
                     </div>
@@ -102,8 +102,16 @@ function StorageInfo(){
                         <Link 
                             to='addCars'
                             className={`${style.link} ${activeLinkList[3] ? style.activeLink : ''}`}
-                            onClick={()=>setActiveLinkList([0,0,0,1])}
+                            onClick={()=>setActiveLinkList([0,0,0,1,0])}
                         >Добавить машину
+                        </Link>
+                    </div>
+                    <div className={style.addCars}>
+                        <Link 
+                            to='deliveries'
+                            className={`${style.link} ${activeLinkList[4] ? style.activeLink : ''}`}
+                            onClick={()=>setActiveLinkList([0,0,0,0,1])}
+                        >Доставки
                         </Link>
                     </div>
                 </div>
