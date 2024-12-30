@@ -341,8 +341,9 @@ app.put('/api/put/storage/:onStorageID/to/:toStorageID/sendproduct', async (req,
     console.error("Ошибка при отправки товаров:", error);
     res.status(500).json({ error: "Ошибка сервера" });
   }
-})
+});
 
+// Добавляем отправленую машину в БД
 app.post('/api/post/sendcars', async (req,res) => {
   try {
     const {carName, carID, carItem, carDate, onStorageID, toStorageID} = req.body;
@@ -381,7 +382,22 @@ app.post('/api/post/sendcars', async (req,res) => {
   } catch (error) {
     res.status(500).json({ error: "Ошибка сервера" });
   }
-})
+});
+
+// Запрос доставок на склад toStorage
+app.get('/api/get/sendcars/:toStorage', async (req,res)=>{
+  try {
+    const toStorage = await req.params.toStorage;
+    const AllSendCars = await sendCars.find({toStorage});
+    if(!AllSendCars){
+      return res.status(404).json({error: 'Доставки не найдены'});
+    }
+    res.json(AllSendCars);
+  } catch (error) {
+    console.error('Ошибка при чтении данных о доставках', error);
+    res.status(500).json({error: "Ошибка сервера"});
+  }
+});
 
 // Запуск сервера
 app.listen(port, () => {
