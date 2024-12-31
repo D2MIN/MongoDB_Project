@@ -346,7 +346,7 @@ app.put('/api/put/storage/:onStorageID/to/:toStorageID/sendproduct', async (req,
 // Добавляем отправленую машину в БД
 app.post('/api/post/sendcars', async (req,res) => {
   try {
-    const {carName, carID, carItem, carDate, onStorageID, toStorageID} = req.body;
+    const {carName, carID, carItem, carDate, carMonth, carYear, onStorageID, toStorageID} = req.body;
     
     // Информация склада отправителя
     const onStorageInfo = await storage.findById(onStorageID);
@@ -372,6 +372,8 @@ app.post('/api/post/sendcars', async (req,res) => {
       carID : carID,
       carItem: sendProduct, 
       carDate: carDate,
+      carMonth: carMonth,
+      carYear: carYear,
       onStorage: onStorageID,
       toStorage: toStorageID
     });

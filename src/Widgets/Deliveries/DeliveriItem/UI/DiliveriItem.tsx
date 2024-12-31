@@ -1,18 +1,14 @@
 import React from "react";
 import style from './DiliveriItemStyle.module.scss';
 
-export function DiliveriItem(props:{storageName, storageAddress, carNumber, comingData}){
+export function DiliveriItem(props:{carNumber, comingDate, comingMonth, comingYear}){
     return(
         <div className={style.deliveriItems}>
             <div className={style.deliveriItem}>
                 <div className={style.deliveriItem__info}>
-                    <div className={style.deliveriItem__info__leftBlock}>
-                        <p>Склад : {props.storageName}</p>
-                        <p>Адрес : {props.storageAddress}</p>
-                    </div>
                     <div className={style.deliveriItem__info__rigthBlock}>
                         <p>Номер машины : {props.carNumber}</p>
-                        <p>Дата прибыития : {props.comingData}</p>
+                        <p>Дата прибыития : {props.comingDate +'.'+ props.comingMonth +'.'+ props.comingYear}</p>
                     </div>
                 </div>
                 <div className={style.deliveriItem__buttons}>

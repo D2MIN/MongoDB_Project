@@ -13,6 +13,8 @@ const SendCarScheme = new mongoose.Schema({
         }
     ],
     carDate: {type : Number, require: true},
+    carMonth: {type : Number, require: true},
+    carYear: {type : Number, require: true},
     onStorage: {type: String, require: true},
     toStorage: {type: String, require: true}
 }, {collection : 'sendCars'});

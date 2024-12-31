@@ -24,7 +24,7 @@ function DeliverisPage(){
         let list : React.ReactNode[] = [];
         sendCars.forEach(carInfo => {
             list.push(
-                <DiliveriItem storageName='Название склада' storageAddress='Адресс склада' carNumber={carInfo.carName} comingData={carInfo.carDate}/>
+                <DiliveriItem carNumber={carInfo.carName} comingDate={carInfo.carDate} comingMonth={carInfo.carMonth} comingYear={carInfo.carYear}/>
             )
         });
         return(list);
