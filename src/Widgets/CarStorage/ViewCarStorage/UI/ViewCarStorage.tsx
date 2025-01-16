@@ -13,12 +13,12 @@ export function ViewCarStorage(){
     const [carsList, setCarList] = useState<React.JSX.Element []>([]);
 
     const [popapCarName, setPopapCarName] = useState<string>('');
-    const [popapCarWeight, setPopapCarWeight] = useState<number>(0);
+    const [popapCarWeight, setPopapCarWeight] = useState<number>();
     const [AllStorage, setAllStorage] = useState<any>();
 
     const [itemStatus, setItemStatus] = useState({});
     const [itemStatusBackap, setItemStatusBackap] = useState({});
-    const [load, setLoad] = useState<number>(0);
+    const [load, setLoad] = useState<number>();
     const [sendItems, setSendItems] = useState({});
     const [carSendID, setCarSendID] = useState<string>('');
     const [carSendName, setCarSendName] = useState<string>('');

@@ -27,6 +27,7 @@ mongoose.connect(url, {
 app.post('/api/post/newstorage',async (req,res)=>{
   try{
     const {name, adress, about, img, user} = await req.body;
+    console.log('About:' , about);
     const newStorage = new storage({
       userLogin : user,
       name: name,
@@ -397,6 +398,25 @@ app.get('/api/get/sendcars/:toStorage', async (req,res)=>{
     res.json(AllSendCars);
   } catch (error) {
     console.error('Ошибка при чтении данных о доставках', error);
+    res.status(500).json({error: "Ошибка сервера"});
+  }
+});
+
+// Запрос на получение товаров в доставке
+app.get('/api/get/caritems/:carID', async(req,res)=>{
+  try {
+    const carId = await req.params.carID;
+    const car = await sendCars.findById(carId);
+    if(!car){
+      return res.status(404).json({error: "Машина не найдена"});
+    }
+    if(car.carItem != undefined){
+      res.json(car.carItem);
+    }else{
+      return res.status(404).json({error: "Товары не найдена"});
+    }
+  } catch (error) {
+    console.error('Ошибка при получении данных о предметах доставки', error);
     res.status(500).json({error: "Ошибка сервера"});
   }
 });

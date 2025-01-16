@@ -15,8 +15,14 @@ export function ViewItemStorage(){
             const itemArr : React.JSX.Element[] = [];
             const product = await data.product;
             if(product != undefined){
+                let img = '';
                 product.forEach((elem)=>{
                     if(elem.name != undefined){
+                        if(elem.imgPath == ''){
+                            img = 'https://cdn1.ozone.ru/s3/multimedia-m/6579525802.jpg';
+                        }else{
+                            img = elem.imgPath;
+                        }
                         itemArr.push(
                             Item(
                                 productCount,
@@ -27,7 +33,7 @@ export function ViewItemStorage(){
                                 elem.about,
                                 elem.itemCount,
                                 elem.itemW,
-                                elem.imgPath
+                                img
                             )
                         );
                     }

@@ -30,7 +30,7 @@ export function AddCarStorage(){
               value={carName}
               onChange={(e) => setCarName(e.target.value)}
               className={style.input}
-              placeholder="Введите название машины"
+              placeholder="Введите номер машины"
             />
           </div>
           <div className={style.inputGroup}>

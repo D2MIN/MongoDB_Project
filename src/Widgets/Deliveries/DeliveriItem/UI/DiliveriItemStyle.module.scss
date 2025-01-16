@@ -70,3 +70,47 @@
 .button__content:hover {
     background-color: style.$blue3;
 }
+
+.popup__wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #3333336b;
+}
+
+.popup{
+    position:fixed;
+    width: 500px;
+    height: 500px;
+    top: calc(50% - 250px);
+    left: calc(50% - 250px);
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+.popup__section{
+    background-color: style.$blue1;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(auto-fill, 200px);
+    overflow: scroll;
+    overflow-x: hidden;
+    scrollbar-color: red;
+}
+.popup__section::-webkit-scrollbar {
+    width: 10px; // Ширина полосы прокрутки
+}
+
+.popup__section::-webkit-scrollbar-track {
+    background: style.$blue1; // Цвет фона полосы прокрутки
+}
+
+.popup__section::-webkit-scrollbar-thumb {
+    background: #f1f1f1; // Цвет ползунка
+    border-radius: 10px; // Закругление углов ползунка
+}

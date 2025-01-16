@@ -1,0 +1,38 @@
+// src/Widgets/Deliveries/DeliveriItem/UI/Items/Items.module.scss
+
+.itemSection {
+    display: flex;
+    flex-direction: column; // Изменено для вертикального расположения элементов
+    padding: 16px; // Добавлено отступы
+    justify-content: center;
+    align-items: center;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; // Центрирование элементов по вертикали
+    margin-bottom: 12px; // Отступ между элементами
+    border: 1px solid #ccc; // Добавлена рамка для каждого элемента
+    border-radius: 8px; // Закругление углов
+    padding: 8px; // Внутренние отступы
+    background-color: #f9f9f9; // Цвет фона
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+}
+
+.img {
+    margin-right: 12px; // Отступ между изображением и информацией
+}
+
+.img img {
+    width: 50px; // Ширина изображения
+    height: 50px; // Высота изображения
+    border-radius: 4px; // Закругление углов изображения
+}
+
+.info {
+    font-size: 16px; // Размер шрифта
+    color: #333; // Цвет текста
+}

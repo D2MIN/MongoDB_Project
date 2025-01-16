@@ -55,8 +55,12 @@ function CreateStorageForm(){
     },[doneePushFlag])
 
     function ButtonClick(name, about, adress, img){
-      if(name != '' && about != '' && adress != '' && img != ''){
-        PostData(storageName, storageDescript, storageAdress, imageSrc);
+      if(name != '' && adress != ''){
+        if(img == ''){
+          // Если не было предоставленно фото для склада ставится автоматическое фото
+          img = 'https://mining-group.ru/upload/iblock/590/eopk2n7ei3xpnfmg0sqlm0w36u9doh8l.jpeg';
+        }
+        PostData(name, about, adress, img);
         setImageSrc('');
         setStorageName('');
         setStorageDescript('');

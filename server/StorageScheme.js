@@ -5,7 +5,7 @@ const StorageScheme = new mongoose.Schema({
     img : {type : String, require : true},
     name: { type: String, required: true },
     street: { type: String, required: true },
-    about: { type: String, required: true },
+    about: { type: String, required: false },
     carCount: { type: Number, default: 0 },
     product: [
         {

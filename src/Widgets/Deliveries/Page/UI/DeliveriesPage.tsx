@@ -7,14 +7,13 @@ import StorageContext from "../../../../App/StorageInfo/BL/useStorageContext.tsx
 
 function DeliverisPage(){
     const {data,setData} = useContext(StorageContext);
-    const [sendCars, setSendCars] = useState();
+    const [sendCars, setSendCars] = useState([]);
     
     useEffect(()=>{
         async function getSendCar(){
             if(data._id != undefined){
                 const res = await GetSendCar(data._id);
                 setSendCars(res);
-                console.log(res);
             }
         }
         getSendCar();
@@ -24,7 +23,7 @@ function DeliverisPage(){
         let list : React.ReactNode[] = [];
         sendCars.forEach(carInfo => {
             list.push(
-                <DiliveriItem carNumber={carInfo.carName} comingDate={carInfo.carDate} comingMonth={carInfo.carMonth} comingYear={carInfo.carYear}/>
+                <DiliveriItem carID={carInfo._id} carNumber={carInfo.carName} comingDate={carInfo.carDate} comingMonth={carInfo.carMonth} comingYear={carInfo.carYear}/>
             )
         });
         return(list);
