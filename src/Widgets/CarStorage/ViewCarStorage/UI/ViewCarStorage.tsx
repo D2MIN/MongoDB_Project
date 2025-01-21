@@ -22,6 +22,7 @@ export function ViewCarStorage(){
     const [sendItems, setSendItems] = useState({});
     const [carSendID, setCarSendID] = useState<string>('');
     const [carSendName, setCarSendName] = useState<string>('');
+    const [carWeight, setCarWeight] = useState<Number>(0);
 
     const [selectStorage, setSelectStorage] = useState<boolean | string>(false);
     
@@ -33,6 +34,7 @@ export function ViewCarStorage(){
         }
         else{
             const AllCars = data.cars;
+            console.log(AllCars);
             let carsList : React.JSX.Element[] = [];
             AllCars.forEach(car => {
                 if(car.carName != undefined && car.carWeight != undefined){
@@ -46,6 +48,7 @@ export function ViewCarStorage(){
                             setPopapCarLoad = {setPopapCarWeight}
                             setCarSendID = {setCarSendID}
                             setCarSendName = {setCarSendName}
+                            setCarWeight = {setCarWeight}
                         />
                     )
                 }
@@ -165,7 +168,7 @@ export function ViewCarStorage(){
                                             let today = new Date();
                                             let nextday = new Date(today);
                                             nextday.setDate(today.getDate() + 1);
-                                            Send(carSendName,carSendID,sendItems,nextday,data._id.toString(),selectStorage);
+                                            Send(carSendName,carSendID,carWeight,sendItems,nextday,data._id.toString(),selectStorage);
                                         };
                                     }
                                 }

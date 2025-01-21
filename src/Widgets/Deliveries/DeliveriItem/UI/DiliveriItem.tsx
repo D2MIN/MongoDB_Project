@@ -2,12 +2,18 @@ import React, { JSXElementConstructor, ReactElement, useState } from "react";
 import style from './DiliveriItemStyle.module.scss';
 import GetItems from "../BL/GetItems.ts";
 import {Items} from './Items/Items.tsx';
+import { AcceptItem } from "../BL/AcceptItem.ts";
 
-export function DiliveriItem(props:{carID : string, carNumber : string, comingDate : number, comingMonth : number, comingYear: number}){
+export function DiliveriItem(props:{storageId:string, carID : string, carNumber : string, comingDate : number, comingMonth : number, comingYear: number}){
 
     const [items, setItems] = useState([]);
     const [popupFlag, setPopupFlag] = useState(false);
     const [itemsLict, setItemList] = useState<ReactElement[]>([]);
+
+    async function acceptDelivery(){
+        const res = await AcceptItem(props.carID,props.storageId);
+        console.log(res);
+    }
 
     async function checkItems(){
         const AllItems = await GetItems(props.carID);
@@ -45,7 +51,10 @@ export function DiliveriItem(props:{carID : string, carNumber : string, comingDa
                     </div>
                 </div>
                 <div className={style.deliveriItem__buttons}>
-                    <button className={style.button__accept}>
+                    <button 
+                        className={style.button__accept}
+                        onClick={()=>acceptDelivery()}
+                    >
                         Принять машину
                     </button>
                     <button

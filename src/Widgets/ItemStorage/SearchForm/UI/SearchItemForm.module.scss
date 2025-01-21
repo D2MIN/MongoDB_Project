@@ -1,0 +1,33 @@
+@use '../../../../Shared/GlobalStyle/style.scss' as style;
+
+.serchSection{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 50px 0px;
+}
+
+.search{
+    width: 310px;
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    border: 2px solid black;
+}
+
+.searchBtn{
+    border: 0px;
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+    color: white;
+    background-color: style.$blue2;
+}
+
+.searchBtn:hover{
+    background-color: style.$blue1;
+    cursor: pointer;
+}

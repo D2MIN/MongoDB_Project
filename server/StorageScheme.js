@@ -18,9 +18,8 @@ const StorageScheme = new mongoose.Schema({
     ],
     cars: [
         {
-            carName: { type: String, required: false },
-            carWeight: { type: Number, required: false },
-            content : []
+            carName: { type: String, required: true },
+            carWeight: { type: Number, required: true },
         }
     ]
 }, { collection: 'storage' });

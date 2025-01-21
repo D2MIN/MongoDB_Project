@@ -1,4 +1,4 @@
-export async function Send(carName,carID, carItem, carDate, onStorageID, toStorageID) {
+export async function Send(carName,carID,carWeigth, carItem, carDate, onStorageID, toStorageID) {
     const date = carDate.getDate();
     const month = carDate.getMonth() + 1;
     const year = carDate.getFullYear();
@@ -13,6 +13,7 @@ export async function Send(carName,carID, carItem, carDate, onStorageID, toStora
             carYear: year,
             carName: carName,
             carID : carID,
+            carWeigth : carWeigth,
             carItem: carItem,
             onStorageID: onStorageID,
             toStorageID: toStorageID

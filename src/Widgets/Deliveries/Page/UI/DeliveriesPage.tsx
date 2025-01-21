@@ -17,13 +17,13 @@ function DeliverisPage(){
             }
         }
         getSendCar();
-    },[data]);
+    },[data,sendCars]);
 
     function createListSendCars(){
         let list : React.ReactNode[] = [];
         sendCars.forEach(carInfo => {
             list.push(
-                <DiliveriItem carID={carInfo._id} carNumber={carInfo.carName} comingDate={carInfo.carDate} comingMonth={carInfo.carMonth} comingYear={carInfo.carYear}/>
+                <DiliveriItem storageId={data._id} carID={carInfo._id} carNumber={carInfo.carName} comingDate={carInfo.carDate} comingMonth={carInfo.carMonth} comingYear={carInfo.carYear}/>
             )
         });
         return(list);
