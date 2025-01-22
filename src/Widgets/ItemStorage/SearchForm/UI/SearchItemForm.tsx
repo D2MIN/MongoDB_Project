@@ -1,4 +1,4 @@
-import React, { JSXElementConstructor, ReactElement, ReactHTMLElement, useContext, useEffect, useState } from "react";
+import React, {ReactElement, useContext, useEffect, useState } from "react";
 import style from './SearchItemForm.module.scss';
 import { GetSearchItem } from "../BL/GetSeacrhItem.ts";
 import StorageContext from "../../../../App/StorageInfo/BL/useStorageContext.tsx";
@@ -14,10 +14,14 @@ export function SearchItemForm(props:{products,setSearchItemList,setSearchStatus
         const storageId = data._id;
         let arrayWordsSearch = itemName.split(' ').filter(elem => elem != '');
        
-        let searchProduct = product.filter((product) => 
-            arrayWordsSearch.some((word) => {
-                return (product.name.toLowerCase()).includes(word.toLowerCase());
-            })
+        let searchProduct = product.filter((product) =>
+                arrayWordsSearch.some((word) => {
+                    if(product.name == undefined){
+                        return false
+                    }else{
+                        return (product.name.toLowerCase()).includes(word.toLowerCase());
+                    }
+                })
         );
         if(searchProduct.length > 0){
             let itemArr : ReactElement[] = [];
@@ -31,15 +35,16 @@ export function SearchItemForm(props:{products,setSearchItemList,setSearchStatus
                         img = elem.imgPath;
                     }
                     itemArr.push(
-                        Item(
-                            data._id,
-                            elem._id,
-                            elem.name,
-                            elem.about,
-                            elem.itemCount,
-                            elem.itemW,
-                            img
-                        )
+                        <Item
+                            key = {data.id}
+                            storageId = {data._id}
+                            itemId = {elem._id}
+                            name = {elem.name}
+                            descript = {elem.about}
+                            count = {elem.itemCount}
+                            itemW = {elem.itemW}
+                            itemImg = {img}
+                        />
                     );
                 }
             });
@@ -49,15 +54,17 @@ export function SearchItemForm(props:{products,setSearchItemList,setSearchStatus
         }
     }
 
-    useEffect(()=>{
+    async function WaitData(){
         if(props.products != undefined && props.products.length > 0){
-            const products = props.products;
-            products.shift();
+            const products = await props.products;
             setProduct(products);
-        }else{
-            setApdate(() => apdate + 1);
         }
-    },[apdate]);
+        return true;
+    }
+
+    useEffect(()=>{
+        const status = WaitData();
+    },);
 
     return(
         <div className={style.serchSection}>

@@ -12,7 +12,6 @@ export function ViewItemStorage(){
     const [products, setProduct] = useState([]);
     const [searchItemList, setSearchItemList] = useState([]);
     const [searchStatus, setSearchStatus] = useState<boolean>(false);
-    const [refresh, setRefresh] = useState(0);
 
     useEffect(()=>{
         const fetchData = async()=>{
@@ -22,7 +21,6 @@ export function ViewItemStorage(){
             if(product != undefined){
                 let img = '';
                 product.forEach((elem)=>{
-                    console.log(elem._id);
                     if(elem.name != undefined){
                         if(elem.imgPath == ''){
                             img = 'https://cdn1.ozone.ru/s3/multimedia-m/6579525802.jpg';
@@ -30,16 +28,15 @@ export function ViewItemStorage(){
                             img = elem.imgPath;
                         }
                         itemArr.push(
-                            <Item 
+                            <Item
+                                key = {data.id}
                                 storageId = {data._id}
-                                key = {elem._id}
                                 itemId = {elem._id}
                                 name = {elem.name}
                                 descript = {elem.about}
                                 count = {elem.itemCount}
                                 itemW = {elem.itemW}
                                 itemImg = {img}
-                                setRefresh = {setRefresh}
                             />
                         );
                     }

@@ -3,16 +3,14 @@ import style from './Item.module.scss';
 import { DeleteItem } from "../BL/DeleteItem.ts";
 import { useNavigate } from "react-router-dom";
 
-export function Item(props: {storageId,itemId,name,descript,count,itemW, itemImg, setRefresh}){
+export function Item(props: {storageId,itemId,name,descript,count,itemW, itemImg}){
 
     function deleteItem(){
-        console.log(props.key, props.storageId);
-        // DeleteItem(props.key,props.storageId);
-        props.setRefresh(props.key);
+        DeleteItem(props.itemId,props.storageId);
     }
 
     return(
-        <div key={props.key} className={style.item}>
+        <div key={props.itemId} className={style.item}>
             <div className={style.itemTitle}>
                 <div className={style.itemName}>
                     {props.name}
