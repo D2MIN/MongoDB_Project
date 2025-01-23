@@ -27,7 +27,6 @@ mongoose.connect(url, {
 app.post('/api/post/newstorage',async (req,res)=>{
   try{
     const {name, adress, about, img, user} = await req.body;
-    console.log('About:' , about);
     const newStorage = new storage({
       userLogin : user,
       name: name,
@@ -78,13 +77,19 @@ app.get('/api/get/storage/:id/info', async (req, res) => {
 app.delete('/api/delete/storage/:id', async (req, res) => {
   try {
     const storageId = req.params.id;
-    const deletedStorage = await storage.findByIdAndDelete(storageId);
-    if (!deletedStorage) {
-      return res.status(404).json({ error: "Документ не найден" });
+    
+    const deliveryCar = await sendCars.find({toStorage : storageId});
+    if(deliveryCar.length != 0){
+      return res.status(300).json({ error: "На склад едет доставка" });
+    }else{
+      const deletedStorage = await storage.findByIdAndDelete(storageId);
     }
-    res.json({ message: "Документ успешно удален", data: deletedStorage });
+    if (!deletedStorage) {
+      return res.status(404).json({ error: "Склад не найден" });
+    }
+    res.json({ message: "Склад успешно удален", data: deletedStorage });
   } catch (error) {
-    console.error("Ошибка при удалении поля:", error);
+    console.error("Ошибка при удалении склада:", error);
     res.status(500).json({ error: "Ошибка сервера" });
   }
 });
@@ -118,7 +123,6 @@ app.get('/api/get/user/:login/:password', async(req, res)=>{
     if (!login || !password) {
       return res.status(400).json({ error: "Необходимо указать логин и пароль" });
     }
-    console.log(login, password);
     const user = await users.findOne({ login, password });
     if (!user) {
       return res.status(404).json({ error: "Пользователь не найден" });
@@ -161,7 +165,6 @@ app.put('/api/put/storage/:id/removeproduct', async (req, res) => {
     const storageId = req.params.id;
     const criteria = req.body; // Условие для удаления (например, { id: 2dsfhsf8sf })
 
-    console.log(storageId, criteria);
     const updatedStorage = await storage.findByIdAndUpdate(
       storageId,
       { $pull: { product: criteria } }, // Удаляет элементы массива product, соответствующие criteria
@@ -224,6 +227,40 @@ app.put('/api/put/storage/:id/remotecar', async (req, res) => {
     console.error("Ошибка при удалении машины:", error);
     res.status(500).json({ error: "Ошибка сервера" });
   }
+});
+
+// Запрос на удаления товаров которые ушли в дотавку
+app.put('/api/put/storage/:id/putitems', async (req,res)=>{
+  try {
+    const storageId = req.params.id;
+    const deliveryItems = req.body.items;
+
+    const storageInfo = await storage.findById(storageId);
+    let storageProduct = storageInfo.product;
+
+    for(let i = 0; i != storageProduct.length; i++){
+      let productId = storageProduct[i]._id;
+      if(deliveryItems[productId] != undefined){
+        storageProduct[i].itemCount = storageProduct[i].itemCount - deliveryItems[productId];
+      }
+    }
+
+    let newStorageProduct = storageProduct.filter((product) => product.itemCount > 0);
+
+    const newStorageInfo = await storage.findByIdAndUpdate(
+      storageId,
+      {$set : {product : newStorageProduct}},
+      {new : true}
+    );
+    if(newStorageInfo){
+      res.status(200).json({massage: 'Товары изменены'});
+      console.log('Товары изменены')
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({error : 'Ошибка сервера'});
+  }
+
 });
 
 // Добавляем отправленую машину в БД
@@ -304,6 +341,7 @@ app.get('/api/get/caritems/:carID', async(req,res)=>{
   }
 });
 
+// Принимаем товары с доставки
 app.put('/api/accept/deliveryitem', async (req,res)=>{
   try {
     const carId = req.body.carId;
@@ -349,8 +387,6 @@ app.put('/api/accept/deliveryitem', async (req,res)=>{
       const oldCars = oldStorage.cars;
 
       let newcars = clearCar.concat(oldCars)
-
-      console.log(newcars);
 
       const updateStorageCar = await storage.findByIdAndUpdate(
         storageId,

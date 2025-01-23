@@ -41,7 +41,7 @@ function StorageCard({id,img,name,adress,aboutInfo,countCar}:StorageInfoI){
                     </div>
                     <div className={style.anoserSection}>
                         <div className={style.carCount}>
-                            <p>Колличество машин: {countCar || 0}</p>
+                            <p>Колличество машин: {countCar + 1 || 0}</p>
                         </div>
                         <button 
                             className={byttonStyle.button}
