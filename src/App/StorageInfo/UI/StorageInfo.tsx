@@ -15,6 +15,7 @@ function StorageInfo(){
     const [storageName, setStorageName] = useState<string>('');
     const [storageAdress, setStorageAdress] = useState<string>('');
     const [storageDescription, setStorageDescription] = useState<string>('');
+    const [delSendFlag,setDelSendFlag] = useState<boolean>(false);
     
     const { id } = useParams();
     const navigate = useNavigate();
@@ -38,6 +39,9 @@ function StorageInfo(){
 
     async function deleteStorage(){
         const response = await fetch(`http://localhost:8080/api/delete/storage/${id}`, { method: 'DELETE' });
+        if(response.status == 300){
+            setDelSendFlag(true);
+        }
         try{
             if(!response.ok) {
                 throw new Error("Ошибка при удалении документа");
@@ -52,6 +56,22 @@ function StorageInfo(){
         <div className={style.StorageInfo}>
             <Header/>
             
+            {delSendFlag ? 
+                <div className={style.errorDelete}>
+                    <p className={style.title}>
+                        Вы не можете удалить склад пока на него едет доставка
+                    </p>
+                    <button 
+                        onClick={() => setDelSendFlag(false)}
+                        className={style.close}
+                    >
+                        Закрыть
+                    </button>
+                </div>
+                :
+                <></>
+            }
+
             <div className={style.infoSection}>
                 <div className={style.name}>{storageName}</div>
                 <div className={style.aboutContent}>

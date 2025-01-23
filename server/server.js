@@ -83,11 +83,11 @@ app.delete('/api/delete/storage/:id', async (req, res) => {
       return res.status(300).json({ error: "На склад едет доставка" });
     }else{
       const deletedStorage = await storage.findByIdAndDelete(storageId);
+      if (!deletedStorage) {
+        return res.status(404).json({ error: "Склад не найден" });
+      }
+      res.json({ message: "Склад успешно удален", data: deletedStorage });
     }
-    if (!deletedStorage) {
-      return res.status(404).json({ error: "Склад не найден" });
-    }
-    res.json({ message: "Склад успешно удален", data: deletedStorage });
   } catch (error) {
     console.error("Ошибка при удалении склада:", error);
     res.status(500).json({ error: "Ошибка сервера" });
